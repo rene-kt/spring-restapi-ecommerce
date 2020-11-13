@@ -1,6 +1,5 @@
 package com.rene.ecommerce.services;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -39,23 +38,17 @@ public class ClientService {
 
 	@Transactional
 	public Client update(Client obj) {
-		Client updatedClient = findById(obj.getId());
-		clientRepo.save(updatedClient);
-		return updatedClient;
+		return clientRepo.save(obj);
 	}
-	
+
 	public void delete(Integer id) {
 		findById(id);
-		
+
 		try {
 			clientRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("You can't delete this object");
 		}
 	}
-	
-	public List<Client> findAll() {
-        return clientRepo.findAll();
-    }
 
 }
