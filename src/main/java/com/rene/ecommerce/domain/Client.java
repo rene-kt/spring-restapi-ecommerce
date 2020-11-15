@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity	
 public class Client implements Serializable {
 	
@@ -30,6 +32,7 @@ public class Client implements Serializable {
     private String password;
     
     @OneToMany(mappedBy = "ownOfTheProduct")
+	@JsonIgnore
     private List<Product> ownProducts = new ArrayList<>();
     
     

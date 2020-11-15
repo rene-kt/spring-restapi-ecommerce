@@ -42,10 +42,10 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product insert(Product obj, Integer clientId, List<Integer> categoryIds) {
+	public Product insert(Product obj, Integer clientId, Integer categoryId) {
 		obj.setId(null);
 		obj.setOwnOfTheProduct(clientService.findById(clientId));
-		obj.setCategories(categoryService.findAllByIds(categoryIds));
+		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 
 	}

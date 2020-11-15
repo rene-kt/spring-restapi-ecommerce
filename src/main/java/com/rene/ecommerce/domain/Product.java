@@ -1,8 +1,6 @@
 package com.rene.ecommerce.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,13 +8,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
+
+	public Product() {
+		
+	}
+	
+	
+	public Product(Integer id, String name, Double price, Category category, Client ownOfTheProduct) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.category = category;
+		this.ownOfTheProduct = ownOfTheProduct;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,10 +39,10 @@ public class Product implements Serializable {
 	private String name;
 	private Double price;
 
-	@JsonIgnore
-	@ManyToMany
+	
+	@ManyToOne
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private List<Category> categories = new ArrayList<>();
+	private Category category;
 
 	@ManyToOne
 	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
@@ -68,12 +80,14 @@ public class Product implements Serializable {
 		this.ownOfTheProduct = ownOfTheProduct;
 	}
 
-	public List<Category> getCategories() {
-		return categories;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
+
+	
 
 }
