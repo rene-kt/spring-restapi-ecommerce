@@ -13,25 +13,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.rene.ecommerce.domain.Product;
-import com.rene.ecommerce.repositories.ProductRepository;
+import com.rene.ecommerce.domain.Category;
+import com.rene.ecommerce.repositories.CategoryRepository;
 
 @Service
-public class ProductService {
+public class CategoryService {
 
 	@Autowired
-	private ProductRepository productRepo;
+	private CategoryRepository categoryRepo;
 	
-	@Autowired
-	private ClientService clientService;
-	
-	
-	@Autowired
-	private CategoryService categoryService;
 
-
-	public Product findById(Integer id) {
-		Optional<Product> obj = productRepo.findById(id);
+	public Category findById(Integer id) {
+		Optional<Category> obj = categoryRepo.findById(id);
 
 		try {
 			return obj.get();
@@ -42,37 +35,39 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product insert(Product obj, Integer clientId, List<Integer> categoryIds) {
+	public Category insert(Category obj) {
 		obj.setId(null);
-		obj.setOwnOfTheProduct(clientService.findById(clientId));
-		obj.setCategories(categoryService.findAllByIds(categoryIds));
-		return productRepo.save(obj);
+		return categoryRepo.save(obj);
 
 	}
 
 	@Transactional
-	public Product update(Product obj) {
-		return productRepo.save(obj);
+	public Category update(Category obj) {
+		return categoryRepo.save(obj);
 	}
 
 	public void delete(Integer id) {
 		findById(id);
 
 		try {
-			productRepo.deleteById(id);
+			categoryRepo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("You can't delete this object");
 		}
 	}
 
-	public List<Product> findAll() {
-		return productRepo.findAll();
+	public List<Category> findAll() {
+		return categoryRepo.findAll();
 	}
 	
-    public Page<Product> findPage(Integer page, Integer line_per_page, String orderBy, String direction){
+	public List<Category> findAllByIds(List<Integer> ids){
+		return categoryRepo.findAllById(ids);
+	}
+	
+    public Page<Category> findPage(Integer page, Integer line_per_page, String orderBy, String direction){
         PageRequest page_request = PageRequest.of(page, line_per_page, Direction.valueOf(direction), orderBy);
         
-        return productRepo.findAll(page_request);
+        return categoryRepo.findAll(page_request);
     }
 
 }
