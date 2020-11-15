@@ -32,8 +32,8 @@ public class ClientService {
 	@Transactional
 	public Client insert(Client obj) {
 		obj.setId(null);
-		obj = clientRepo.save(obj);
-		return obj;
+		return clientRepo.save(obj);
+
 	}
 
 	@Transactional

@@ -11,27 +11,30 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id; 
-   
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
 	private String name;
 	private Double price;
-	
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "PRODUCT_CATEGORY",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<Category> categories = new ArrayList<>();
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private List<Category> categories = new ArrayList<>();
+
+	@ManyToOne
+	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
+	private Client ownOfTheProduct;
 
 	public Integer getId() {
 		return id;
@@ -57,6 +60,14 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
+	public Client getOwnOfTheProduct() {
+		return ownOfTheProduct;
+	}
+
+	public void setOwnOfTheProduct(Client ownOfTheProduct) {
+		this.ownOfTheProduct = ownOfTheProduct;
+	}
+
 	public List<Category> getCategories() {
 		return categories;
 	}
@@ -64,8 +75,5 @@ public class Product implements Serializable {
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
 	}
-    
-    
-    
 
 }

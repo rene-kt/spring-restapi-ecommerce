@@ -1,12 +1,15 @@
 package com.rene.ecommerce.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity	
 public class Client implements Serializable {
@@ -26,8 +29,19 @@ public class Client implements Serializable {
     private String email;
     private String password;
     
+    @OneToMany(mappedBy = "ownOfTheProduct")
+    private List<Product> ownProducts = new ArrayList<>();
+    
+    
+    
 
-    public Integer getId() {
+    public List<Product> getOwnProducts() {
+		return ownProducts;
+	}
+	public void setOwnProducts(List<Product> ownProducts) {
+		this.ownProducts = ownProducts;
+	}
+	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
