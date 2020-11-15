@@ -32,7 +32,7 @@ public class Client implements Serializable {
     private String password;
     
     @OneToMany(mappedBy = "ownOfTheProduct")
-	@JsonIgnore
+    @JsonIgnore
     private List<Product> ownProducts = new ArrayList<>();
     
     

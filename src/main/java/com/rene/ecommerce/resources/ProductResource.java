@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rene.ecommerce.domain.Client;
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
 import com.rene.ecommerce.services.ProductService;
@@ -30,6 +31,14 @@ public class ProductResource {
 		Product obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
+	
+	@GetMapping("/products")
+	public ResponseEntity<List<Product>> findAll() {
+
+		List<Product> products = service.findAll();
+		return ResponseEntity.ok().body(products);
+	}
+
 
 	@PostMapping("/product/{categoryId}/{clientId}")
 	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj,@PathVariable Integer clientId, @PathVariable Integer categoryId ) {
