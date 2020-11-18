@@ -104,6 +104,16 @@ public class Product implements Serializable {
 	public void setBuyerOfTheProduct(Client buyerOfTheProduct) {
 		this.buyerOfTheProduct = buyerOfTheProduct;
 	}
+	
+	 
+    public static boolean isSold(Product obj) {
+    	
+    	if(obj.getBuyerOfTheProduct() == null) {
+    		return false;
+    	}
+    	return true;
+    }
+
 
 	
 	

@@ -23,18 +23,15 @@ public class ProductService {
 
 	@Autowired
 	private ProductRepository productRepo;
-	
 
 	@Autowired
 	private SellerService sellerService;
-	
-	
+
 	@Autowired
 	private ClientService clientService;
-	
+
 	@Autowired
 	private CategoryService categoryService;
-
 
 	public Product findById(Integer id) {
 		Optional<Product> obj = productRepo.findById(id);
@@ -61,35 +58,36 @@ public class ProductService {
 		return productRepo.save(obj);
 	}
 
-	public void delete(Integer id) {
-		findById(id);
+	public void delete(Integer id) throws Exception {
 
-		try {
-			productRepo.deleteById(id);
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("You can't delete this object");
+		if (Product.isSold(findById(id))) {
+			throw new Exception("O produto já está vendido");
 		}
+
+		productRepo.deleteById(id);
+
 	}
 
 	public List<Product> findAll() {
 		return productRepo.findAll();
 	}
-	
-    public Page<Product> findPage(Integer page, Integer line_per_page, String orderBy, String direction){
-        PageRequest page_request = PageRequest.of(page, line_per_page, Direction.valueOf(direction), orderBy);
-        
-        return productRepo.findAll(page_request);
-    }
-    
-    @Transactional
-    public Product buyProduct(Integer productId, Integer clientId){
-    	Product boughtProduct = findById(productId);
-    	Client buyer = clientService.findById(clientId);
-    	
-    	buyer.setBoughtProducts(Arrays.asList(boughtProduct));
-    	boughtProduct.setBuyerOfTheProduct(buyer);
-    	
-    	return productRepo.save(boughtProduct);
-    }
+
+	public Page<Product> findPage(Integer page, Integer line_per_page, String orderBy, String direction) {
+		PageRequest page_request = PageRequest.of(page, line_per_page, Direction.valueOf(direction), orderBy);
+
+		return productRepo.findAll(page_request);
+	}
+
+	@Transactional
+	public Product buyProduct(Integer productId, Integer clientId) {
+
+		Product boughtProduct = findById(productId);
+		Client buyer = clientService.findById(clientId);
+
+		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
+		boughtProduct.setBuyerOfTheProduct(buyer);
+
+		return productRepo.save(boughtProduct);
+	}
 
 }

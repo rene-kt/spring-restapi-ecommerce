@@ -67,7 +67,12 @@ public class ProductResource {
 	
 	@DeleteMapping("delete/product/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
-		service.delete(id);
+		try {
+			service.delete(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.getMessage();
+		}
 		
 		return ResponseEntity.noContent().build();
 	}
