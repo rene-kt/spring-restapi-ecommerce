@@ -9,8 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
 
@@ -50,6 +50,7 @@ public class Product implements Serializable {
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
 	private Seller ownOfTheProduct;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
 	private Client buyerOfTheProduct;

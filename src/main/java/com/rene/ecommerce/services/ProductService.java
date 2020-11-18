@@ -1,5 +1,6 @@
 package com.rene.ecommerce.services;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Product;
+import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.repositories.ProductRepository;
 
 @Service
@@ -27,7 +29,8 @@ public class ProductService {
 	private SellerService sellerService;
 	
 	
-	
+	@Autowired
+	private ClientService clientService;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -76,6 +79,17 @@ public class ProductService {
         PageRequest page_request = PageRequest.of(page, line_per_page, Direction.valueOf(direction), orderBy);
         
         return productRepo.findAll(page_request);
+    }
+    
+    @Transactional
+    public Product buyProduct(Integer productId, Integer clientId){
+    	Product boughtProduct = findById(productId);
+    	Client buyer = clientService.findById(clientId);
+    	
+    	buyer.setBoughtProducts(Arrays.asList(boughtProduct));
+    	boughtProduct.setBuyerOfTheProduct(buyer);
+    	
+    	return productRepo.save(boughtProduct);
     }
 
 }
