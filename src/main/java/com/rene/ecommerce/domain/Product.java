@@ -50,7 +50,7 @@ public class Product implements Serializable {
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
 	private Seller ownOfTheProduct;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
 	private Client buyerOfTheProduct;
 

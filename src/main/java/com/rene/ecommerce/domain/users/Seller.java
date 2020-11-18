@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rene.ecommerce.domain.Product;
 
 @Entity
@@ -22,7 +23,6 @@ public class Seller extends User {
 		setType("Seller");
 	}
 	
-	@OneToMany(mappedBy = "ownOfTheProduct")
 	private List<Product> ownProducts  = new ArrayList<>();
 	@Override
 	@Id
@@ -69,4 +69,15 @@ public class Seller extends User {
 		// TODO Auto-generated method stub
 		return super.getType();
 	}
+
+	@JsonIgnore	
+	@OneToMany(mappedBy = "ownOfTheProduct")
+	public List<Product> getOwnProducts() {
+		return ownProducts;
+	}
+
+	public void setOwnProducts(List<Product> ownProducts) {
+		this.ownProducts = ownProducts;
+	}
+	
 }

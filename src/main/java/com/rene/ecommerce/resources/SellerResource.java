@@ -11,40 +11,40 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rene.ecommerce.domain.users.Client;
-import com.rene.ecommerce.services.ClientService;
+import com.rene.ecommerce.domain.users.Seller;
+import com.rene.ecommerce.services.SellerService;
 
 
 @RestController
 @RequestMapping(value = "/ecommerce")
-public class ClientResource {
+public class SellerResource {
 
 	@Autowired
-	private ClientService service;
+	private SellerService service;
 
-	@GetMapping("/client/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Integer id) {
+	@GetMapping("/seller/{id}")
+	public ResponseEntity<Seller> findById(@PathVariable Integer id) {
 
-		Client obj = service.findById(id);
+		Seller obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PostMapping("/client")
-	public ResponseEntity<Client> insert(@RequestBody Client obj) {
+	@PostMapping("/seller")
+	public ResponseEntity<Seller> insert(@RequestBody Seller obj) {
 
 		service.insert(obj);
 	
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PutMapping("/client")
-	public ResponseEntity<Void> update(@RequestBody Client obj){
+	@PutMapping("/seller")
+	public ResponseEntity<Void> update(@RequestBody Seller obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/client/{id}")
+	@DeleteMapping("/seller/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		

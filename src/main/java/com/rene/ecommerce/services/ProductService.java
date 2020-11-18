@@ -22,8 +22,11 @@ public class ProductService {
 	@Autowired
 	private ProductRepository productRepo;
 	
+
 	@Autowired
-	private ClientService clientService;
+	private SellerService sellerService;
+	
+	
 	
 	
 	@Autowired
@@ -42,9 +45,9 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product insert(Product obj, Integer clientId, Integer categoryId) {
+	public Product insert(Product obj, Integer sellerId, Integer categoryId) {
 		obj.setId(null);
-		obj.setOwnOfTheProduct(clientService.findById(clientId));
+		obj.setOwnOfTheProduct(sellerService.findById(sellerId));
 		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 

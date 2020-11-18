@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
-import com.rene.ecommerce.domain.users.User;
 import com.rene.ecommerce.services.ProductService;
 
 @RestController
@@ -40,12 +39,12 @@ public class ProductResource {
 	}
 
 
-	@PostMapping("/product/{categoryId}/{clientId}")
-	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj,@PathVariable Integer clientId, @PathVariable Integer categoryId ) {
+	@PostMapping("/product/{categoryId}/{sellerId}")
+	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj,@PathVariable Integer sellerId, @PathVariable Integer categoryId ) {
 
 		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
 				
-		service.insert(product, clientId, categoryId);
+		service.insert(product, sellerId, categoryId);
 	
 		return ResponseEntity.ok().body(product);
 	}

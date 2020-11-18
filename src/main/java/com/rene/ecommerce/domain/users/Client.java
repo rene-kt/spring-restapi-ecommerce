@@ -21,7 +21,8 @@ public class Client extends User {
 		setType("Client");
 	}
 	
-	@OneToMany(mappedBy = "buyerOfTheProduct")
+	
+	
 	private List<Product> boughtProducts;
 
 	@Override
@@ -69,4 +70,18 @@ public class Client extends User {
 		// TODO Auto-generated method stub
 		return super.getType();
 	}
+
+	@OneToMany(mappedBy = "buyerOfTheProduct")
+
+	public List<Product> getBoughtProducts() {
+		return boughtProducts;
+	}
+
+	public void setBoughtProducts(List<Product> boughtProducts) {
+		this.boughtProducts = boughtProducts;
+	}
+
+
+	
+	
 }
