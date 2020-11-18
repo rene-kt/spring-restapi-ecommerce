@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import com.rene.ecommerce.domain.User;
+import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.repositories.ClientRepository;
 
 @Service
@@ -18,8 +18,8 @@ public class ClientService {
 	@Autowired
 	private ClientRepository clientRepo;
 
-	public User findById(Integer id) {
-		Optional<User> obj = clientRepo.findById(id);
+	public Client findById(Integer id) {
+		Optional<Client> obj = clientRepo.findById(id);
 
 		try {
 			return obj.get();
@@ -30,14 +30,14 @@ public class ClientService {
 	}
 
 	@Transactional
-	public User insert(User obj) {
+	public Client insert(Client obj) {
 		obj.setId(null);
 		return clientRepo.save(obj);
 
 	}
 
 	@Transactional
-	public User update(User obj) {
+	public Client update(Client obj) {
 		return clientRepo.save(obj);
 	}
 

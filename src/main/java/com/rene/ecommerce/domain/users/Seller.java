@@ -1,4 +1,4 @@
-package com.rene.ecommerce.domain;
+package com.rene.ecommerce.domain.users;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.rene.ecommerce.domain.Product;
 
 @Entity
 @Table(name = "TB_SELLERS")

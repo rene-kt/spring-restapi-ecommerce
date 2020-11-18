@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rene.ecommerce.domain.User;
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
+import com.rene.ecommerce.domain.users.User;
 import com.rene.ecommerce.services.ProductService;
 
 @RestController

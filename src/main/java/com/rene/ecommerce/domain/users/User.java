@@ -1,4 +1,4 @@
-package com.rene.ecommerce.domain;
+package com.rene.ecommerce.domain.users;
 
 public abstract class User {
 

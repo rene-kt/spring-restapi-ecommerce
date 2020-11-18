@@ -11,6 +11,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.domain.users.Seller;
+
 @Entity
 public class Product implements Serializable {
 

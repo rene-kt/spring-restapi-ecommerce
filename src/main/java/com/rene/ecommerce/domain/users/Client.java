@@ -1,4 +1,4 @@
-package com.rene.ecommerce.domain;
+package com.rene.ecommerce.domain.users;
 
 import java.util.List;
 
@@ -7,7 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.rene.ecommerce.domain.Product;
 
 @Entity
 @Table(name = "TB_CLIENTS")
@@ -18,6 +21,7 @@ public class Client extends User {
 		setType("Client");
 	}
 	
+	@OneToMany(mappedBy = "buyerOfTheProduct")
 	private List<Product> boughtProducts;
 
 	@Override
