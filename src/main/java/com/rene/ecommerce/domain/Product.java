@@ -9,18 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Product implements Serializable {
 
 	public Product() {
-		
+		setBuyerOfTheProduct(null);
 	}
 	
 	
-	public Product(Integer id, String name, Double price, Category category, Client ownOfTheProduct) {
+	public Product(Integer id, String name, Double price, Category category, Seller ownOfTheProduct) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -45,8 +44,12 @@ public class Product implements Serializable {
 	private Category category;
 
 	@ManyToOne
+	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
+	private Seller ownOfTheProduct;
+	
+	@OneToOne
 	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
-	private Client ownOfTheProduct;
+	private Client buyerOfTheProduct;
 
 	public Integer getId() {
 		return id;
@@ -72,11 +75,11 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public Client getOwnOfTheProduct() {
+	public Seller getOwnOfTheProduct() {
 		return ownOfTheProduct;
 	}
 
-	public void setOwnOfTheProduct(Client ownOfTheProduct) {
+	public void setOwnOfTheProduct(Seller ownOfTheProduct) {
 		this.ownOfTheProduct = ownOfTheProduct;
 	}
 
@@ -88,6 +91,17 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
+
+	public Client getBuyerOfTheProduct() {
+		return buyerOfTheProduct;
+	}
+
+
+	public void setBuyerOfTheProduct(Client buyerOfTheProduct) {
+		this.buyerOfTheProduct = buyerOfTheProduct;
+	}
+
+	
 	
 
 }

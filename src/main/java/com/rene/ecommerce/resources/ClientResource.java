@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rene.ecommerce.domain.Client;
+import com.rene.ecommerce.domain.User;
 import com.rene.ecommerce.services.ClientService;
 
 @RestController
@@ -22,14 +22,14 @@ public class ClientResource {
 	private ClientService service;
 
 	@GetMapping("/client/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Integer id) {
+	public ResponseEntity<User> findById(@PathVariable Integer id) {
 
-		Client obj = service.findById(id);
+		User obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@PostMapping("/client")
-	public ResponseEntity<Client> insert(@RequestBody Client obj) {
+	public ResponseEntity<User> insert(@RequestBody User obj) {
 
 		service.insert(obj);
 	
@@ -37,7 +37,7 @@ public class ClientResource {
 	}
 	
 	@PutMapping("/client")
-	public ResponseEntity<Void> update(@RequestBody Client obj){
+	public ResponseEntity<Void> update(@RequestBody User obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();

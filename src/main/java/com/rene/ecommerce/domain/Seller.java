@@ -1,5 +1,6 @@
 package com.rene.ecommerce.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,19 +8,20 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TB_CLIENTS")
-public class Client extends User {
+@Table(name = "TB_SELLERS")
+public class Seller extends User {
+
 	
-	
-	public Client() {
-		setType("Client");
+	public Seller() {
+		setType("Seller");
 	}
 	
-	private List<Product> boughtProducts;
-
+	@OneToMany(mappedBy = "ownOfTheProduct")
+	private List<Product> ownProducts  = new ArrayList<>();
 	@Override
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
