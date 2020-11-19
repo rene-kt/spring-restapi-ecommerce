@@ -1,4 +1,4 @@
-package com.rene.ecommerce.services;
+package com.rene.ecommerce.services.details;
 
 import java.util.Arrays;
 
