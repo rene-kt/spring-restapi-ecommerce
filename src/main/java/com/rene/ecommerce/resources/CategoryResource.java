@@ -21,14 +21,14 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService service;
 
-	@GetMapping("/category/{id}")
+	@GetMapping("seller/category/{id}")
 	public ResponseEntity<Category> findById(@PathVariable Integer id) {
 
 		Category obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PostMapping("/category")
+	@PostMapping("seller/category")
 	public ResponseEntity<Category> insert(@RequestBody Category obj) {
 
 		service.insert(obj);
@@ -36,14 +36,14 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PutMapping("/category")
+	@PutMapping("seller/category")
 	public ResponseEntity<Void> update(@RequestBody Category obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/category/{id}")
+	@DeleteMapping("seller/category/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		

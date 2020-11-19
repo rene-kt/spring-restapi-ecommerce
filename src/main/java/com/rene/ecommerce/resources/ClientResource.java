@@ -29,7 +29,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PostMapping("/client")
+	@PostMapping("/create/client")
 	public ResponseEntity<Client> insert(@RequestBody Client obj) {
 
 		service.insert(obj);
@@ -37,14 +37,14 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PutMapping("/client")
+	@PutMapping("/client/update")
 	public ResponseEntity<Void> update(@RequestBody Client obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/client/{id}")
+	@DeleteMapping("/client/delete/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		

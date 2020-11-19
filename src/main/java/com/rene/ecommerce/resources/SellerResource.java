@@ -29,7 +29,7 @@ public class SellerResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PostMapping("/seller")
+	@PostMapping("/create/seller")
 	public ResponseEntity<Seller> insert(@RequestBody Seller obj) {
 
 		service.insert(obj);
@@ -37,14 +37,14 @@ public class SellerResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PutMapping("/seller")
+	@PutMapping("/seller/update")
 	public ResponseEntity<Void> update(@RequestBody Seller obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("/seller/{id}")
+	@DeleteMapping("/seller/delete/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		

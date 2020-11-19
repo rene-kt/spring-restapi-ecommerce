@@ -39,7 +39,7 @@ public class ProductResource {
 	}
 
 
-	@PostMapping("/create/product/{categoryId}/{sellerId}")
+	@PostMapping("seller/create/product/{categoryId}/{sellerId}")
 	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj,@PathVariable Integer sellerId, @PathVariable Integer categoryId ) {
 
 		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
@@ -49,14 +49,14 @@ public class ProductResource {
 		return ResponseEntity.ok().body(product);
 	}
 	
-	@PutMapping("edit/product")
+	@PutMapping("seller/edit/product")
 	public ResponseEntity<Void> update(@RequestBody Product obj){
 	
 	service.update(obj);
 	return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/buy/product/{productId}/{clientId}")
+	@PutMapping("client/buy/product/{productId}/{clientId}")
 	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId ) {
 
 		service.buyProduct(productId, clientId);
@@ -65,7 +65,7 @@ public class ProductResource {
 	}
 	
 	
-	@DeleteMapping("delete/product/{id}")
+	@DeleteMapping("seller/delete/product/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		try {
 			service.delete(id);
