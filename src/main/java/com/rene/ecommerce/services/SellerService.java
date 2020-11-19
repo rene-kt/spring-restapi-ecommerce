@@ -18,12 +18,9 @@ public class SellerService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
-	
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
-
 
 	public Seller findById(Integer id) {
 		Optional<Seller> obj = sellerRepo.findById(id);
@@ -39,12 +36,16 @@ public class SellerService {
 	@Transactional
 	public Seller insert(Seller obj) {
 		obj.setId(null);
+		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+
 		return sellerRepo.save(obj);
 
 	}
 
 	@Transactional
 	public Seller update(Seller obj) {
+		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+
 		return sellerRepo.save(obj);
 	}
 

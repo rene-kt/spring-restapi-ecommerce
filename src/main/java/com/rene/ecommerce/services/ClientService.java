@@ -38,14 +38,14 @@ public class ClientService {
 	@Transactional
 	public Client insert(Client obj) {
 		obj.setId(null);
-		obj.setPassword(passwordEncoder.encode((obj.getPassword())));
+		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 		return clientRepo.save(obj);
 
 	}
 
 	@Transactional
 	public Client update(Client obj) {
-		obj.setPassword(passwordEncoder.encode((obj.getPassword())));
+		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 		return clientRepo.save(obj);
 	}
 

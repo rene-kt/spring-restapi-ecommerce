@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rene.ecommerce.domain.Product;
 
 @Entity
@@ -56,7 +57,7 @@ public class Seller extends User {
 	}
 
 	@Column
-	@JsonIgnore
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
