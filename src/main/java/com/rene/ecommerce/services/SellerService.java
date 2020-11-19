@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Seller;
@@ -17,6 +18,12 @@ public class SellerService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
+	
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
+
 
 	public Seller findById(Integer id) {
 		Optional<Seller> obj = sellerRepo.findById(id);

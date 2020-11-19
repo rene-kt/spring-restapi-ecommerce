@@ -56,7 +56,7 @@ public class Seller extends User {
 	}
 
 	@Column
-
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub

@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
@@ -17,6 +18,11 @@ public class ClientService {
 
 	@Autowired
 	private ClientRepository clientRepo;
+	
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+
 
 	public Client findById(Integer id) {
 		Optional<Client> obj = clientRepo.findById(id);
@@ -32,12 +38,14 @@ public class ClientService {
 	@Transactional
 	public Client insert(Client obj) {
 		obj.setId(null);
+		obj.setPassword(passwordEncoder.encode((obj.getPassword())));
 		return clientRepo.save(obj);
 
 	}
 
 	@Transactional
 	public Client update(Client obj) {
+		obj.setPassword(passwordEncoder.encode((obj.getPassword())));
 		return clientRepo.save(obj);
 	}
 

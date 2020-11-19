@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rene.ecommerce.domain.Product;
 
 @Entity
@@ -58,6 +59,7 @@ public class Client extends User {
 
 	@Column
 
+	@JsonIgnore
 	@Override
 	public String getPassword() {
 		// TODO Auto-generated method stub
