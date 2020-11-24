@@ -40,15 +40,15 @@ public class Seller extends User {
 		return super.getName();
 	}
 
-	@Column
-
+	@Column (unique = true)
+	
 	@Override
 	public String getCpf() {
 		// TODO Auto-generated method stub
 		return super.getCpf();
 	}
 
-	@Column
+	@Column (unique = true)
 
 	@Override
 	public String getEmail() {

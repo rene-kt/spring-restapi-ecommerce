@@ -41,7 +41,7 @@ public class Client extends User {
 		return super.getName();
 	}
 
-	@Column
+	@Column (unique = true)
 
 	@Override
 	public String getCpf() {
@@ -49,7 +49,7 @@ public class Client extends User {
 		return super.getCpf();
 	}
 
-	@Column
+	@Column (unique = true)
 
 	@Override
 	public String getEmail() {
