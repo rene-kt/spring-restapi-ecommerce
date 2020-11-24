@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.SellerSS;
-
+@Service
 public class SellerDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired

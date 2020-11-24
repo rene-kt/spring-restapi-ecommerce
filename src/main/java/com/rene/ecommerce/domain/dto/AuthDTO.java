@@ -11,6 +11,10 @@ public class AuthDTO implements Serializable{
 	private String email;
 	private String password;
 	
+	public AuthDTO() {
+		
+	}
+	
 	
 	public AuthDTO(String email, String password) {
 		super();

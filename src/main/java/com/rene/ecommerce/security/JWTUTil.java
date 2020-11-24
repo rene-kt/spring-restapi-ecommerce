@@ -9,7 +9,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
-public class JWTUTil {
+public class JWTUtil {
 
 	@Value("${jwt.secret}")
 	private String secret;
