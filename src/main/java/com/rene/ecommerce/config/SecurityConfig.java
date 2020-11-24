@@ -11,9 +11,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.rene.ecommerce.security.JWTUtil;
-import com.rene.ecommerce.security.filters.JWTAuthenticationFilterClient;
-import com.rene.ecommerce.security.filters.JWTAuthenticationFilterSeller;
+import com.rene.ecommerce.security.filters.JWTAuthenticationFilter;
 import com.rene.ecommerce.services.details.ClientDetailsServiceImpl;
+import com.rene.ecommerce.services.details.SellerDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -27,12 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JWTUtil jwtUtil;
 	
 
-	// @Autowired
-	// private SellerDetailsServiceImpl sellerDetails;
+	 @Autowired
+	 private SellerDetailsServiceImpl sellerDetails;
 	
 	private static final String[] PUBLIC_MATCHER = {
 
-			"/ecommerce/create/**", "/ecommerce/products", "/ecommerce/product/**", "/ecommerce/login/"
+			"/ecommerce/create/**", "/ecommerce/products", "/ecommerce/product/**",
 			
 	};
 
@@ -40,8 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHER).permitAll().anyRequest().authenticated();
-		http.addFilter(new JWTAuthenticationFilterClient(authenticationManager(), jwtUtil));
-		http.addFilter(new JWTAuthenticationFilterSeller(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
@@ -51,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 	     
 		 auth.userDetailsService(clientDetails).passwordEncoder(bCryptPasswordEncoder());
-		 // auth.userDetailsService(sellerDetails).passwordEncoder(bCryptPasswordEncoder());
+		 auth.userDetailsService(sellerDetails).passwordEncoder(bCryptPasswordEncoder());
 
 	    }
 	 

@@ -20,15 +20,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rene.ecommerce.domain.dto.AuthDTO;
 import com.rene.ecommerce.security.ClientSS;
 import com.rene.ecommerce.security.JWTUtil;
+import com.rene.ecommerce.security.SellerSS;
 
-public class JWTAuthenticationFilterClient extends UsernamePasswordAuthenticationFilter {
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
 
     
     private JWTUtil jwtUtil;
 
-    public JWTAuthenticationFilterClient(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
         setAuthenticationFailureHandler(new JWTAuthenticationFailureHandler());
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
@@ -58,8 +59,15 @@ public class JWTAuthenticationFilterClient extends UsernamePasswordAuthenticatio
             HttpServletResponse res,
             FilterChain chain,
             Authentication auth) throws IOException, ServletException {
+    	
 
-        String username = ((ClientSS) auth.getPrincipal()).getUsername();
+    	String username = "";
+    	
+    	if(auth.getAuthorities().equals("Client")) {
+            username = ((ClientSS) auth.getPrincipal()).getUsername();
+    	}else {
+            username = ((SellerSS) auth.getPrincipal()).getUsername();
+    	}
         String token = jwtUtil.generateToken(username);
         res.addHeader("Authorization", "Bearer " + token);
         res.addHeader("access-control-expose-headers", "Authorization");
