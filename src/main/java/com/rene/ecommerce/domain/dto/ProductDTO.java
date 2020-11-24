@@ -17,11 +17,11 @@ public class ProductDTO implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Category category;
+	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-
 	private Seller productOwner;
+	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-
 	private Client buyerOfTheProduct;
 
 	public ProductDTO() {
@@ -86,5 +86,16 @@ public class ProductDTO implements Serializable {
 	public void setBuyerOfTheProduct(Client buyerOfTheProduct) {
 		this.buyerOfTheProduct = buyerOfTheProduct;
 	}
+	
+	 
+    public static boolean isSold(ProductDTO obj) {
+    	
+    	if(obj.getBuyerOfTheProduct() == null) {
+    		return false;
+    	}
+    	return true;
+    }
+
+
 
 }

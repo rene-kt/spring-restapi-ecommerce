@@ -28,10 +28,11 @@ public class ProductResource {
 	public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
 
 		Product obj = service.findById(id);
-		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getCategory(), obj.getProductOwner(), obj.getBuyerOfTheProduct());
+		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getCategory(),
+				obj.getProductOwner(), obj.getBuyerOfTheProduct());
 		return ResponseEntity.ok().body(dto);
 	}
-	
+
 	@GetMapping("/products")
 	public ResponseEntity<List<Product>> findAll() {
 
@@ -39,44 +40,48 @@ public class ProductResource {
 		return ResponseEntity.ok().body(products);
 	}
 
-
 	@PostMapping("seller/create/product/{categoryId}/{sellerId}")
-	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj,@PathVariable Integer sellerId, @PathVariable Integer categoryId ) {
+	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer sellerId,
+			@PathVariable Integer categoryId) {
 
 		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
-				
+
 		service.insert(product, sellerId, categoryId);
-	
+
 		return ResponseEntity.ok().body(product);
 	}
 	
-	@PutMapping("seller/edit/product")
-	public ResponseEntity<Void> update(@RequestBody Product obj){
-	
-	service.update(obj);
-	return ResponseEntity.noContent().build();
+	@PutMapping("seller/edit/product/{categoryId}/{sellerId}")
+	public ResponseEntity<Product> update(@RequestBody ProductDTO obj,@PathVariable Integer categoryId, @PathVariable Integer sellerId
+			) throws Exception {
+
+		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null);
+
+		service.update(product, sellerId, categoryId);
+
+		return ResponseEntity.ok().body(product);
 	}
-	
+
+
+
 	@PutMapping("client/buy/product/{productId}/{clientId}")
-	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId ) {
+	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId) {
 
 		service.buyProduct(productId, clientId);
-	
+
 		return ResponseEntity.noContent().build();
 	}
-	
-	
+
 	@DeleteMapping("seller/delete/product/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
-		
-		
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+
 		try {
 			service.delete(id);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.getMessage();
 		}
-		
+
 		return ResponseEntity.noContent().build();
 	}
 
