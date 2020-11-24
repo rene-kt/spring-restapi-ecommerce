@@ -22,13 +22,13 @@ public class Product implements Serializable {
 	}
 	
 	
-	public Product(Integer id, String name, Double price, Category category, Seller ownOfTheProduct) {
+	public Product(Integer id, String name, Double price, Category category, Seller productOwner) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.category = category;
-		this.ownOfTheProduct = ownOfTheProduct;
+		this.productOwner = productOwner;
 	}
 
 
@@ -48,7 +48,7 @@ public class Product implements Serializable {
 
 	@ManyToOne
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
-	private Seller ownOfTheProduct;
+	private Seller productOwner;
 	
 	@JsonIgnore
 	@ManyToOne
@@ -79,12 +79,12 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public Seller getOwnOfTheProduct() {
-		return ownOfTheProduct;
+	public Seller getProductOwner() {
+		return productOwner;
 	}
 
-	public void setOwnOfTheProduct(Seller ownOfTheProduct) {
-		this.ownOfTheProduct = ownOfTheProduct;
+	public void setProductOwner(Seller productOwner) {
+		this.productOwner = productOwner;
 	}
 
 	public Category getCategory() {

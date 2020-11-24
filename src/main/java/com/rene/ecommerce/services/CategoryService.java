@@ -14,13 +14,13 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Category;
+import com.rene.ecommerce.domain.dto.CategoryDTO;
 import com.rene.ecommerce.repositories.CategoryRepository;
 
 @Service
 public class CategoryService {
 
-	@Autowired
-	private CategoryRepository categoryRepo;
+	@Autowired	private CategoryRepository categoryRepo;
 	
 
 	public Category findById(Integer id) {
@@ -57,6 +57,8 @@ public class CategoryService {
 	}
 
 	public List<Category> findAll() {
+		CategoryDTO dto = new CategoryDTO();
+		
 		return categoryRepo.findAll();
 	}
 	

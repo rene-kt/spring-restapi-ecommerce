@@ -72,7 +72,7 @@ public class Seller extends User {
 	}
 
 	@JsonIgnore	
-	@OneToMany(mappedBy = "ownOfTheProduct")
+	@OneToMany(mappedBy = "productOwner")
 	public List<Product> getOwnProducts() {
 		return ownProducts;
 	}

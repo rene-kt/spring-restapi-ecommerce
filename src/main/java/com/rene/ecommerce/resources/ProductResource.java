@@ -25,10 +25,11 @@ public class ProductResource {
 	private ProductService service;
 
 	@GetMapping("/product/{id}")
-	public ResponseEntity<Product> findById(@PathVariable Integer id) {
+	public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
 
 		Product obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getCategory(), obj.getProductOwner(), obj.getBuyerOfTheProduct());
+		return ResponseEntity.ok().body(dto);
 	}
 	
 	@GetMapping("/products")
@@ -67,6 +68,8 @@ public class ProductResource {
 	
 	@DeleteMapping("seller/delete/product/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
+		
+		
 		try {
 			service.delete(id);
 		} catch (Exception e) {
