@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.rene.ecommerce.security.JWTUtil;
 import com.rene.ecommerce.security.filters.JWTAuthenticationFilter;
+import com.rene.ecommerce.security.filters.JWTAuthorizationFilter;
 import com.rene.ecommerce.services.details.ClientDetailsServiceImpl;
 import com.rene.ecommerce.services.details.SellerDetailsServiceImpl;
 
@@ -41,6 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHER).permitAll().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, clientDetails));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, sellerDetails));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	

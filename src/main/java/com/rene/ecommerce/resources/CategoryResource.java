@@ -1,5 +1,7 @@
 package com.rene.ecommerce.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.Category;
+import com.rene.ecommerce.domain.dto.CategoryDTO;
 import com.rene.ecommerce.services.CategoryService;
 
 @RestController
@@ -21,12 +24,22 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService service;
 
-	@GetMapping("seller/category/{id}")
-	public ResponseEntity<Category> findById(@PathVariable Integer id) {
+	@GetMapping("category/{id}")
+	public ResponseEntity<CategoryDTO> findById(@PathVariable Integer id) {
 
 		Category obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+		
+		CategoryDTO category = new CategoryDTO(obj.getId(),obj.getName(), obj.getProducts());
+		
+		return ResponseEntity.ok().body(category);
 	}
+	
+	@GetMapping("categories")
+	public ResponseEntity<List<Category>> findAll() {
+		
+		return ResponseEntity.ok().body(service.findAll());
+	}
+	
 
 	@PostMapping("seller/category")
 	public ResponseEntity<Category> insert(@RequestBody Category obj) {

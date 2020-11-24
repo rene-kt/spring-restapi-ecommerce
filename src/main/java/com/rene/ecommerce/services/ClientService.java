@@ -1,5 +1,6 @@
 package com.rene.ecommerce.services;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -33,6 +34,10 @@ public class ClientService {
 			throw new NoSuchElementException();
 		}
 
+	}
+	
+	public List<Client> findAll(){
+		return clientRepo.findAll();
 	}
 
 	@Transactional

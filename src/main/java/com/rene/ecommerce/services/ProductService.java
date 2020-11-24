@@ -8,9 +8,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Product;
@@ -71,11 +68,6 @@ public class ProductService {
 		return productRepo.findAll();
 	}
 
-	public Page<Product> findPage(Integer page, Integer line_per_page, String orderBy, String direction) {
-		PageRequest page_request = PageRequest.of(page, line_per_page, Direction.valueOf(direction), orderBy);
-
-		return productRepo.findAll(page_request);
-	}
 
 	@Transactional
 	public Product buyProduct(Integer productId, Integer clientId) {

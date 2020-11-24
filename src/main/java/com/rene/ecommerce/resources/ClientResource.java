@@ -1,5 +1,7 @@
 package com.rene.ecommerce.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,13 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.services.ClientService;
 
-
 @RestController
 @RequestMapping(value = "/ecommerce")
 public class ClientResource {
 
 	@Autowired
 	private ClientService service;
+
+	@GetMapping("/clients")
+	public ResponseEntity<List<Client>> findAll() {
+
+		return ResponseEntity.ok().body(service.findAll());
+	}
 
 	@GetMapping("/client/{id}")
 	public ResponseEntity<Client> findById(@PathVariable Integer id) {
@@ -33,21 +40,21 @@ public class ClientResource {
 	public ResponseEntity<Client> insert(@RequestBody Client obj) {
 
 		service.insert(obj);
-	
+
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@PutMapping("/client/update")
-	public ResponseEntity<Void> update(@RequestBody Client obj){
-	
-	service.update(obj);
-	return ResponseEntity.noContent().build();
+	public ResponseEntity<Void> update(@RequestBody Client obj) {
+
+		service.update(obj);
+		return ResponseEntity.noContent().build();
 	}
-	
+
 	@DeleteMapping("/client/delete/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 

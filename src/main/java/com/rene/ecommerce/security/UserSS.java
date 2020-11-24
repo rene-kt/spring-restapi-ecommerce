@@ -41,7 +41,7 @@ public abstract class UserSS implements UserDetails {
 		return authorities;
 	}
 	
-	
+
 
 	public Integer getId() {
 		return id;
