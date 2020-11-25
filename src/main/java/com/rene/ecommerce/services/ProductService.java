@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.repositories.ProductRepository;
 
 @Service
@@ -50,9 +51,9 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product update(Product obj, Integer sellerId, Integer categoryId) throws Exception {
+	public Product update(Product obj, Integer sellerId, Integer categoryId)  {
 		if (Product.isSold(findById(obj.getId()))) {
-			throw new Exception("The product is already sold");
+			throw new ProductHasAlreadyBeenSold();
 		}
 
 		obj.setProductOwner(sellerService.findById(sellerId));
@@ -61,10 +62,10 @@ public class ProductService {
 
 	}
 
-	public void delete(Integer id) throws Exception {
+	public void delete(Integer id)  {
 
 		if (Product.isSold(findById(id))) {
-			throw new Exception("The product has already been sold");
+			throw new ProductHasAlreadyBeenSold();
 		}
 		productRepo.deleteById(id);
 
@@ -75,8 +76,11 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product buyProduct(Integer productId, Integer clientId) {
+	public Product buyProduct(Integer productId, Integer clientId)  {
 
+		if (Product.isSold(findById(productId))) {
+			throw new ProductHasAlreadyBeenSold();
+		}
 		Product boughtProduct = findById(productId);
 		Client buyer = clientService.findById(clientId);
 

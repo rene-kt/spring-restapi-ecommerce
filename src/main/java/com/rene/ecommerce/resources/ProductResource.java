@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
+import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.services.ProductService;
 
 @RestController
@@ -53,7 +54,7 @@ public class ProductResource {
 
 	@PutMapping("seller/edit/product/{categoryId}/{sellerId}")
 	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
-			@PathVariable Integer sellerId) throws Exception {
+			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
 
 		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null);
 
@@ -63,21 +64,26 @@ public class ProductResource {
 	}
 
 	@PutMapping("client/buy/product/{productId}/{clientId}")
-	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId) {
+	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId) {
 
-		service.buyProduct(productId, clientId);
+		try {
+			service.buyProduct(productId, clientId);
+			return ResponseEntity.ok().build();
 
-		return ResponseEntity.noContent().build();
+		} catch (ProductHasAlreadyBeenSold e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
+
 	}
 
 	@DeleteMapping("seller/delete/product/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Integer id) {
+	public ResponseEntity<Object> delete(@PathVariable Integer id)  {
 
 		try {
 			service.delete(id);
 			return ResponseEntity.ok().build();
 
-		} catch (Exception e) {
+		} catch (ProductHasAlreadyBeenSold e) {
 			// TODO Auto-generated catch block
 			return ResponseEntity.badRequest().body(e.getMessage());
 
