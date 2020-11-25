@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Category;
+import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.CategoryRepository;
 
 @Service
@@ -25,7 +26,7 @@ public class CategoryService {
 		try {
 			return obj.get();
 		} catch (NoSuchElementException e) {
-			throw new NoSuchElementException();
+			throw new ObjectNotFoundException();
 		}
 
 	}

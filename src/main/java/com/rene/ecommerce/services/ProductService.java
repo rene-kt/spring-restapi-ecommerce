@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.repositories.ProductRepository;
 
@@ -36,7 +37,7 @@ public class ProductService {
 		try {
 			return obj.get();
 		} catch (NoSuchElementException e) {
-			throw new NoSuchElementException();
+			throw new ObjectNotFoundException();
 		}
 
 	}

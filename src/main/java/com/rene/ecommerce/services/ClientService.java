@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 
 @Service
@@ -31,7 +32,7 @@ public class ClientService {
 		try {
 			return obj.get();
 		} catch (NoSuchElementException e) {
-			throw new NoSuchElementException();
+			throw new ObjectNotFoundException();
 		}
 
 	}
