@@ -37,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			
 	};
 
+	// Configure application: add auth filters, public endpoints 
+	// and setting state (in this case, is STATELESS)
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable();

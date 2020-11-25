@@ -50,10 +50,10 @@ public class ProductResource {
 
 		return ResponseEntity.ok().body(product);
 	}
-	
+
 	@PutMapping("seller/edit/product/{categoryId}/{sellerId}")
-	public ResponseEntity<Product> update(@RequestBody ProductDTO obj,@PathVariable Integer categoryId, @PathVariable Integer sellerId
-			) throws Exception {
+	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
+			@PathVariable Integer sellerId) throws Exception {
 
 		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null);
 
@@ -61,8 +61,6 @@ public class ProductResource {
 
 		return ResponseEntity.ok().body(product);
 	}
-
-
 
 	@PutMapping("client/buy/product/{productId}/{clientId}")
 	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId) {
@@ -73,16 +71,18 @@ public class ProductResource {
 	}
 
 	@DeleteMapping("seller/delete/product/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
+	public ResponseEntity<Object> delete(@PathVariable Integer id) {
 
 		try {
 			service.delete(id);
+			return ResponseEntity.ok().build();
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.getMessage();
+			return ResponseEntity.badRequest().body(e.getMessage());
+
 		}
 
-		return ResponseEntity.noContent().build();
 	}
 
 }

@@ -108,10 +108,10 @@ public class Product implements Serializable {
 	 
     public static boolean isSold(Product obj) {
     	
-    	if(obj.getBuyerOfTheProduct() == null) {
-    		return false;
+    	if(obj.getBuyerOfTheProduct() != null) {
+    		return true;
     	}
-    	return true;
+    	return false;
     }
 
 

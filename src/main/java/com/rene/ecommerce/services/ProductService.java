@@ -25,7 +25,6 @@ public class ProductService {
 
 	@Autowired
 	private ClientService clientService;
-	
 
 	@Autowired
 	private CategoryService categoryService;
@@ -49,26 +48,24 @@ public class ProductService {
 		return productRepo.save(obj);
 
 	}
-	
+
 	@Transactional
 	public Product update(Product obj, Integer sellerId, Integer categoryId) throws Exception {
-		if(Product.isSold(obj)) {
+		if (Product.isSold(findById(obj.getId()))) {
 			throw new Exception("The product is already sold");
 		}
-				
+
 		obj.setProductOwner(sellerService.findById(sellerId));
 		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 
 	}
 
-
 	public void delete(Integer id) throws Exception {
 
 		if (Product.isSold(findById(id))) {
-			throw new Exception("O produto já está vendido");
+			throw new Exception("The product has already been sold");
 		}
-
 		productRepo.deleteById(id);
 
 	}
@@ -76,7 +73,6 @@ public class ProductService {
 	public List<Product> findAll() {
 		return productRepo.findAll();
 	}
-
 
 	@Transactional
 	public Product buyProduct(Integer productId, Integer clientId) {
@@ -89,7 +85,5 @@ public class ProductService {
 
 		return productRepo.save(boughtProduct);
 	}
-	
-	
 
 }
