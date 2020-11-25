@@ -34,6 +34,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		this.jwtUtil = jwtUtil;
 	}
 
+	// Try to authenticate
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
 			throws AuthenticationException {
@@ -51,6 +52,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		}
 	}
 
+	// If authenticate sucess, search which user the Auth obj is, wheter is 
+	// client or seller
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, FilterChain chain,
 			Authentication auth) throws IOException, ServletException {
@@ -69,6 +72,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		res.addHeader("access-control-expose-headers", "Authorization");
 	}
 
+	
+	// If the authenticate fails, throw the json below 
 	private class JWTAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 		@Override
@@ -81,8 +86,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		private String json() {
 			long date = new Date().getTime();
-			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
-					+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
+			return "{\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Not authorized\", "
+					+ "\"message\": \"Email or password incorrects\", " + "\"path\": \"/login\"}";
 		}
 	}
 
