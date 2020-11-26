@@ -92,7 +92,14 @@ public class ProductService {
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);
 
-		emailService.sendConfirmationEmail(boughtProduct);
+		
+		Thread thread = new Thread() {
+			public void run() {
+				emailService.sendConfirmationEmail(boughtProduct);
+
+			}
+		};
+		thread.start();
 		return productRepo.save(boughtProduct);
 	}
 
