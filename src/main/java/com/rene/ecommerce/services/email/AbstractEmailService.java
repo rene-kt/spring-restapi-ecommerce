@@ -40,8 +40,11 @@ public abstract class AbstractEmailService implements EmailService {
 		// TODO Auto-generated method stub
 		
 		try {
-			MimeMessage mm = prepareMimeMessageFromProductClient(obj);
-			sendEmailHtml(mm);
+			MimeMessage mmClient = prepareMimeMessageFromProductClient(obj);
+			MimeMessage mmSeller= prepareMimeMessageFromProductSeller(obj);
+
+			sendEmailHtml(mmClient);
+			sendEmailHtml(mmSeller);
 
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
@@ -50,6 +53,19 @@ public abstract class AbstractEmailService implements EmailService {
 	}
 
 	protected MimeMessage prepareMimeMessageFromProductClient(Product obj) throws MessagingException {
+		MimeMessage mm = javaMailSender.createMimeMessage();
+
+		MimeMessageHelper mmh = new MimeMessageHelper(mm, true);
+		mmh.setTo(obj.getBuyerOfTheProduct().getEmail());
+		mmh.setFrom(sender);
+		mmh.setSubject("Your order has been completed");
+		mmh.setSentDate(new Date(System.currentTimeMillis()));
+		mmh.setText(htmlFromTemplateProductClient(obj), true);
+
+		return mm;
+	}
+	
+	protected MimeMessage prepareMimeMessageFromProductSeller(Product obj) throws MessagingException {
 		MimeMessage mm = javaMailSender.createMimeMessage();
 
 		MimeMessageHelper mmh = new MimeMessageHelper(mm, true);
