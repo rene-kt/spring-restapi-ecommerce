@@ -4,13 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.rene.ecommerce.services.email.EmailService;
-import com.rene.ecommerce.services.email.MockMailService;
+import com.rene.ecommerce.services.email.SmtpEmailService;
 
 @Configuration
 public class EmailConfiguration {
 
 	@Bean
 	public EmailService emailService() {
-		return new MockMailService();
+		return new SmtpEmailService();
 	}
 }
