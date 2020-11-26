@@ -115,6 +115,13 @@ public class Product implements Serializable {
     }
 
 
+	@Override
+	public String toString() {
+		return "Product [name=" + name + ", price=" + price + ", productOwner=" + productOwner.getName() + "]";
+	}
+
+    
+
 	
 	
 

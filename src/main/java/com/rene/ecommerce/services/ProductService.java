@@ -15,6 +15,7 @@ import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.repositories.ProductRepository;
+import com.rene.ecommerce.services.email.EmailService;
 
 @Service
 public class ProductService {
@@ -30,6 +31,9 @@ public class ProductService {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public Product findById(Integer id) {
 		Optional<Product> obj = productRepo.findById(id);
@@ -88,6 +92,7 @@ public class ProductService {
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);
 
+		emailService.sendConfirmationEmail(boughtProduct);
 		return productRepo.save(boughtProduct);
 	}
 
