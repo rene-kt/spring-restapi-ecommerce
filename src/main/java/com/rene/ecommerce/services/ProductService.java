@@ -95,7 +95,7 @@ public class ProductService {
 		
 		Thread thread = new Thread() {
 			public void run() {
-				emailService.sendConfirmationEmail(boughtProduct);
+				emailService.sendConfirmationEmailHtml(boughtProduct);
 
 			}
 		};
