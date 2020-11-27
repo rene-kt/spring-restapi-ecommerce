@@ -42,7 +42,6 @@ public class SellerService {
 
 		try {
 			return sellerRepo.save(obj);
-
 		} catch (Exception e) {
 			throw new DuplicateEntryException();
 		}
@@ -53,7 +52,14 @@ public class SellerService {
 	public Seller update(Seller obj) {
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		return sellerRepo.save(obj);
+		
+		try {
+			return sellerRepo.save(obj);
+
+		} catch (Exception e) {
+			throw new DuplicateEntryException();
+		}
+		
 	}
 
 	public void delete(Integer id) {

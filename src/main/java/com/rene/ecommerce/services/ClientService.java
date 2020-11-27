@@ -1,5 +1,6 @@
 package com.rene.ecommerce.services;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
