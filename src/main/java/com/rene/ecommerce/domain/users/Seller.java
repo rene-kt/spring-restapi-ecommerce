@@ -19,12 +19,12 @@ import com.rene.ecommerce.domain.Product;
 @Table(name = "TB_SELLERS")
 public class Seller extends User {
 
-	
 	public Seller() {
 		setType("Seller");
 	}
-	
-	private List<Product> ownProducts  = new ArrayList<>();
+
+	private List<Product> ownProducts = new ArrayList<>();
+
 	@Override
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +40,14 @@ public class Seller extends User {
 		return super.getName();
 	}
 
-	@Column (unique = true)
-	
+	@Column(unique = true)
 	@Override
 	public String getCpf() {
 		// TODO Auto-generated method stub
 		return super.getCpf();
 	}
 
-	@Column (unique = true)
-
+	@Column(unique = true)
 	@Override
 	public String getEmail() {
 		// TODO Auto-generated method stub
@@ -71,7 +69,7 @@ public class Seller extends User {
 		return super.getType();
 	}
 
-	@JsonIgnore	
+	@JsonIgnore
 	@OneToMany(mappedBy = "productOwner")
 	public List<Product> getOwnProducts() {
 		return ownProducts;
@@ -81,4 +79,6 @@ public class Seller extends User {
 		this.ownProducts = ownProducts;
 	}
 	
+	
+
 }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 
@@ -20,11 +21,9 @@ public class ClientService {
 
 	@Autowired
 	private ClientRepository clientRepo;
-	
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-
 
 	public Client findById(Integer id) {
 		Optional<Client> obj = clientRepo.findById(id);
@@ -36,8 +35,8 @@ public class ClientService {
 		}
 
 	}
-	
-	public List<Client> findAll(){
+
+	public List<Client> findAll() {
 		return clientRepo.findAll();
 	}
 
@@ -45,7 +44,14 @@ public class ClientService {
 	public Client insert(Client obj) {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
-		return clientRepo.save(obj);
+
+		
+		try {
+			return clientRepo.save(obj);
+		} catch (Exception e) {
+			throw new DuplicateEntryException();
+		}
+	
 
 	}
 

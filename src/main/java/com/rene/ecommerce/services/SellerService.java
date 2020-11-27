@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Seller;
+import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.SellerRepository;
 
@@ -39,7 +40,12 @@ public class SellerService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		return sellerRepo.save(obj);
+		try {
+			return sellerRepo.save(obj);
+
+		} catch (Exception e) {
+			throw new DuplicateEntryException();
+		}
 
 	}
 

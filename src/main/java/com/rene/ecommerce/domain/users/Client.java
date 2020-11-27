@@ -16,14 +16,11 @@ import com.rene.ecommerce.domain.Product;
 @Entity
 @Table(name = "TB_CLIENTS")
 public class Client extends User {
-	
-	
+
 	public Client() {
 		setType("Client");
 	}
-	
-	
-	
+
 	private List<Product> boughtProducts;
 
 	@Override
@@ -41,16 +38,14 @@ public class Client extends User {
 		return super.getName();
 	}
 
-	@Column (unique = true)
-
+	@Column(unique = true)
 	@Override
 	public String getCpf() {
 		// TODO Auto-generated method stub
 		return super.getCpf();
 	}
 
-	@Column (unique = true)
-
+	@Column(unique = true)
 	@Override
 	public String getEmail() {
 		// TODO Auto-generated method stub
@@ -84,7 +79,4 @@ public class Client extends User {
 		this.boughtProducts = boughtProducts;
 	}
 
-
-	
-	
 }
