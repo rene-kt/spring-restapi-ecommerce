@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
@@ -22,6 +23,9 @@ public class ClientService {
 
 	@Autowired
 	private ClientRepository clientRepo;
+
+	@Autowired
+	private SellerRepository sellerRepo;
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -49,19 +53,19 @@ public class ClientService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		if (SearchUser.hasAnySellerWithThisEmailOrCpf(obj.getEmail(), obj.getCpf())) {
-
-			try {
-				return clientRepo.save(obj);
-			} catch (Exception e) {
-				// TODO: handle exception
-				throw new DuplicateEntryException();
-
+		
+			if(sellerRepo.findByEmail(obj.getEmail()) == null) {
+				try {
+					return clientRepo.save(obj);
+				} catch (Exception e) {
+					// TODO: handle exception
+					throw new DuplicateEntryException();
+				}
 			}
-		} else {
-			throw new DuplicateEntryException();
-
-		}
+			
+			throw new ClientOrSellerHasThisSameEntryException("Seller");
+			
+	
 
 	}
 
