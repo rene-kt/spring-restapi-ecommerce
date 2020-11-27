@@ -14,4 +14,6 @@ public interface SellerRepository extends JpaRepository<Seller, Integer> {
 	@Transactional
 	Seller findByEmail(String email);
 	
+	@Transactional
+	Seller findByCpf(String cpf);
 }

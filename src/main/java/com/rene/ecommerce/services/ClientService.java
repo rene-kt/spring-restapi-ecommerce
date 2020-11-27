@@ -1,6 +1,5 @@
 package com.rene.ecommerce.services;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -16,6 +15,7 @@ import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
+import com.rene.ecommerce.repositories.SellerRepository;
 
 @Service
 public class ClientService {
@@ -25,6 +25,9 @@ public class ClientService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+
+	@Autowired
+	private SellerRepository sellerReppo;
 
 	public Client findById(Integer id) {
 		Optional<Client> obj = clientRepo.findById(id);
@@ -46,13 +49,19 @@ public class ClientService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		
-		try {
-			return clientRepo.save(obj);
-		} catch (Exception e) {
+		if (SearchUser.hasAnySellerWithThisEmailOrCpf(obj.getEmail(), obj.getCpf())) {
+
+			try {
+				return clientRepo.save(obj);
+			} catch (Exception e) {
+				// TODO: handle exception
+				throw new DuplicateEntryException();
+
+			}
+		} else {
 			throw new DuplicateEntryException();
+
 		}
-	
 
 	}
 
@@ -72,4 +81,10 @@ public class ClientService {
 		}
 	}
 
+	public boolean hasAnyUserWithThisEmail(String email) {
+		if (sellerReppo.findByEmail(email) != null) {
+			return true;
+		}
+		return false;
+	}
 }

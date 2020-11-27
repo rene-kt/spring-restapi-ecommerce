@@ -40,11 +40,11 @@ public class SellerService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		try {
-			return sellerRepo.save(obj);
-		} catch (Exception e) {
+		if (SearchUser.hasAnyClientWithThisEmailOrCpf(obj.getEmail(), obj.getCpf())) {
 			throw new DuplicateEntryException();
+
 		}
+		return sellerRepo.save(obj);
 
 	}
 
@@ -52,14 +52,13 @@ public class SellerService {
 	public Seller update(Seller obj) {
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		
 		try {
 			return sellerRepo.save(obj);
 
 		} catch (Exception e) {
 			throw new DuplicateEntryException();
 		}
-		
+
 	}
 
 	public void delete(Integer id) {
