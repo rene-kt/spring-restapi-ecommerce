@@ -62,7 +62,7 @@ public class SellerService {
 			}
 		}
 
-		throw new ClientOrSellerHasThisSameEntryException("Seller");
+		throw new ClientOrSellerHasThisSameEntryException("client");
 
 	}
 

@@ -32,7 +32,6 @@ public class ClientService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-
 	public Client findById(Integer id) {
 
 		ClientSS user = UserService.clientAuthenticated();
@@ -63,7 +62,6 @@ public class ClientService {
 			try {
 				return clientRepo.save(obj);
 			} catch (Exception e) {
-				// TODO: handle exception
 				throw new DuplicateEntryException();
 			}
 		}
@@ -75,12 +73,23 @@ public class ClientService {
 	@Transactional
 	public Client update(Client obj) {
 		ClientSS user = UserService.clientAuthenticated();
-		
-		if(!obj.getId().equals(user.getId())) {
+		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+
+
+		if (user == null || !user.getId().equals(obj.getId())) {
 			throw new AuthorizationException();
 		}
-		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
-		return clientRepo.save(obj);
+		
+		if (sellerRepo.findByEmail(obj.getEmail()) == null) {
+			try {
+				return clientRepo.save(obj);
+			} catch (Exception e) {
+				throw new DuplicateEntryException();
+			}
+		}
+
+		throw new ClientOrSellerHasThisSameEntryException("seller");
+
 	}
 
 	public void delete(Integer id) {
@@ -93,5 +102,4 @@ public class ClientService {
 		}
 	}
 
-	
 }

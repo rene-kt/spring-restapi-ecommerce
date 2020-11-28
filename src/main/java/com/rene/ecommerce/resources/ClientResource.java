@@ -45,10 +45,10 @@ public class ClientResource {
 	}
 
 	@PutMapping("/client/update")
-	public ResponseEntity<Void> update(@RequestBody Client obj) {
+	public ResponseEntity<Client> update(@RequestBody Client obj){
 
 		service.update(obj);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(obj);
 	}
 
 	@DeleteMapping("/client/delete/{id}")
