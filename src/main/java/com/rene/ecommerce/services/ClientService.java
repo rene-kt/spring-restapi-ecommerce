@@ -92,11 +92,11 @@ public class ClientService {
 
 	}
 
-	public void delete(Integer id) {
-		findById(id);
+	public void delete() {
+		ClientSS user = UserService.clientAuthenticated();
 
 		try {
-			clientRepo.deleteById(id);
+			clientRepo.deleteById(user.getId());
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("You can't delete this object");
 		}

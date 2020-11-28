@@ -9,31 +9,46 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.repositories.ClientRepository;
+import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.ClientSS;
+import com.rene.ecommerce.security.SellerSS;
+
 @Service
 public class ClientDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private ClientRepository repo;
-	
-	
+	private ClientRepository clientRepo;
+
+	@Autowired
+	private SellerRepository sellerRepo;
+
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		
-		Client cli = repo.findByEmail(email);
-		
-		if(cli == null) {
-			throw new UsernameNotFoundException(email);
+
+		Client cli = clientRepo.findByEmail(email);
+
+		if (cli == null) {
+			Seller sel = sellerRepo.findByEmail(email);
+
+			SellerSS selSS = new SellerSS();
+
+			selSS.setId(sel.getId());
+			selSS.setEmail(sel.getEmail());
+			selSS.setPassword(sel.getPassword());
+			selSS.setAuthorities(Arrays.asList(sel.getType()));
+
+			return selSS;
 		}
-		
+
 		ClientSS cliSS = new ClientSS();
-		
+
 		cliSS.setId(cli.getId());
 		cliSS.setEmail(cli.getEmail());
 		cliSS.setPassword(cli.getPassword());
 		cliSS.setAuthorities(Arrays.asList(cli.getType()));
-		
+
 		return cliSS;
 	}
 

@@ -12,9 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.domain.users.Seller;
+import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.repositories.ProductRepository;
+import com.rene.ecommerce.security.ClientSS;
+import com.rene.ecommerce.security.SellerSS;
 import com.rene.ecommerce.services.email.EmailService;
 
 @Service
@@ -47,30 +51,44 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product insert(Product obj, Integer sellerId, Integer categoryId) {
+	public Product insert(Product obj, Integer categoryId) {
+		
+		SellerSS user = UserService.sellerAuthenticated();
+		
 		obj.setId(null);
-		obj.setProductOwner(sellerService.findById(sellerId));
+		obj.setProductOwner(sellerService.findById(user.getId()));
 		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 
 	}
 
-	// verificar se é o dono do produto
+	// verify if its product owner
 	@Transactional
-	public Product update(Product obj, Integer sellerId, Integer categoryId)  {
+	public Product update(Product obj, Integer categoryId)  {
+		SellerSS user = UserService.sellerAuthenticated();
+		Seller seller = sellerService.findById(user.getId());
+
+		if(!obj.getProductOwner().equals(seller)) {
+			throw new AuthorizationException("You're not owner of this product");
+		}
 		if (Product.isSold(findById(obj.getId()))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
 
-		obj.setProductOwner(sellerService.findById(sellerId));
+		obj.setProductOwner(seller);
 		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 
 	}
-	// verificar se é o dono do produto
-
+	
 	public void delete(Integer id)  {
-
+		SellerSS user = UserService.sellerAuthenticated();
+		Seller seller = sellerService.findById(user.getId());
+		Product obj = findById(id);
+		
+		if(!obj.getProductOwner().equals(seller)) {
+			throw new AuthorizationException("You're not owner of this product");
+		}
 		if (Product.isSold(findById(id))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
@@ -83,13 +101,15 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product buyProduct(Integer productId, Integer clientId)  {
+	public Product buyProduct(Integer productId)  {
 
+		
+		ClientSS user = UserService.clientAuthenticated();
 		if (Product.isSold(findById(productId))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
 		Product boughtProduct = findById(productId);
-		Client buyer = clientService.findById(clientId);
+		Client buyer = clientService.findById(user.getId());
 
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);

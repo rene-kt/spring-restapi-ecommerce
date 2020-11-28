@@ -14,7 +14,6 @@ import com.rene.ecommerce.security.JWTUtil;
 import com.rene.ecommerce.security.filters.JWTAuthenticationFilter;
 import com.rene.ecommerce.security.filters.JWTAuthorizationFilter;
 import com.rene.ecommerce.services.details.ClientDetailsServiceImpl;
-import com.rene.ecommerce.services.details.SellerDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -28,8 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JWTUtil jwtUtil;
 	
 
-	 @Autowired
-	 private SellerDetailsServiceImpl sellerDetails;
+
 	
 	private static final String[] PUBLIC_MATCHER = {
 
@@ -45,7 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHER).permitAll().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
 		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, clientDetails));
-		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, sellerDetails));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
@@ -55,7 +52,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 	     
 		 auth.userDetailsService(clientDetails).passwordEncoder(bCryptPasswordEncoder());
-		 auth.userDetailsService(sellerDetails).passwordEncoder(bCryptPasswordEncoder());
 
 	    }
 	 

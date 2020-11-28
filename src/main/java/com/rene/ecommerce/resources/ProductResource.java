@@ -41,33 +41,32 @@ public class ProductResource {
 		return ResponseEntity.ok().body(products);
 	}
 
-	@PostMapping("seller/create/product/{categoryId}/{sellerId}")
-	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer sellerId,
-			@PathVariable Integer categoryId) {
+	@PostMapping("seller/create/product/{categoryId}")
+	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer categoryId) {
 
 		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
 
-		service.insert(product, sellerId, categoryId);
+		service.insert(product, categoryId);
 
 		return ResponseEntity.ok().body(product);
 	}
 
-	@PutMapping("seller/edit/product/{categoryId}/{sellerId}")
+	@PutMapping("seller/edit/product/{categoryId}")
 	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
 			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
 
 		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null);
 
-		service.update(product, sellerId, categoryId);
+		service.update(product, categoryId);
 
 		return ResponseEntity.ok().body(product);
 	}
 
-	@PutMapping("client/buy/product/{productId}/{clientId}")
-	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId, @PathVariable Integer clientId) {
+	@PutMapping("client/buy/product/{productId}")
+	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId) {
 
 		try {
-			service.buyProduct(productId, clientId);
+			service.buyProduct(productId);
 			return ResponseEntity.ok().build();
 
 		} catch (ProductHasAlreadyBeenSold e) {
@@ -77,17 +76,10 @@ public class ProductResource {
 	}
 
 	@DeleteMapping("seller/delete/product/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Integer id)  {
+	public ResponseEntity<Object> delete(@PathVariable Integer id) {
 
-		try {
-			service.delete(id);
-			return ResponseEntity.ok().build();
-
-		} catch (ProductHasAlreadyBeenSold e) {
-			// TODO Auto-generated catch block
-			return ResponseEntity.badRequest().body(e.getMessage());
-
-		}
+		service.delete(id);
+		return ResponseEntity.ok().build();
 
 	}
 

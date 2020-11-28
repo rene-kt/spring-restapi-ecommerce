@@ -51,9 +51,9 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@DeleteMapping("/client/delete/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.delete(id);
+	@DeleteMapping("/client/delete")
+	public ResponseEntity<Void> delete() {
+		service.delete();
 
 		return ResponseEntity.noContent().build();
 	}

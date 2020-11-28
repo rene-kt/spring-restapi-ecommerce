@@ -69,11 +69,11 @@ public abstract class AbstractEmailService implements EmailService {
 		MimeMessage mm = javaMailSender.createMimeMessage();
 
 		MimeMessageHelper mmh = new MimeMessageHelper(mm, true);
-		mmh.setTo(obj.getBuyerOfTheProduct().getEmail());
+		mmh.setTo(obj.getProductOwner().getEmail());
 		mmh.setFrom(sender);
-		mmh.setSubject("Your order has been completed");
+		mmh.setSubject("Someone has bought your product");
 		mmh.setSentDate(new Date(System.currentTimeMillis()));
-		mmh.setText(htmlFromTemplateProductClient(obj), true);
+		mmh.setText(htmlFromTemplateProductSeller(obj), true);
 
 		return mm;
 	}
@@ -96,7 +96,7 @@ public abstract class AbstractEmailService implements EmailService {
 		sm.setFrom(sender);
 		sm.setSubject("Someone has bought your product");
 		sm.setSentDate(new Date(System.currentTimeMillis()));
-		sm.setText(obj.getBuyerOfTheProduct().getName() + "bought your product");
+		sm.setText(obj.getBuyerOfTheProduct().getName() + " bought your product");
 		return sm;
 	}
 
