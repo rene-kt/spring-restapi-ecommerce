@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
@@ -50,5 +51,14 @@ public class ResourceExceptionHandler {
 	                "Duplicate entry", e.getMessage(), request.getRequestURI());
 
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	    }
+	  
+	  @ExceptionHandler(AuthorizationException.class)
+	    public ResponseEntity<StandardError> authorization(AuthorizationException e, HttpServletRequest request) {
+
+	        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.FORBIDDEN.value(),
+	                "Authorization", e.getMessage(), request.getRequestURI());
+
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
 	    }
 }

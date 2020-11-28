@@ -11,11 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Seller;
+import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
+import com.rene.ecommerce.security.SellerSS;
 
 @Service
 public class SellerService {
@@ -30,6 +32,12 @@ public class SellerService {
 	private BCryptPasswordEncoder passwordEncoder;
 
 	public Seller findById(Integer id) {
+
+		SellerSS user = UserService.sellerAuthenticated();
+
+		if (user == null || !user.getId().equals(id)) {
+			throw new AuthorizationException();
+		}
 		Optional<Seller> obj = sellerRepo.findById(id);
 
 		try {
@@ -45,7 +53,7 @@ public class SellerService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		if(clientRepo.findByEmail(obj.getEmail()) == null) {
+		if (clientRepo.findByEmail(obj.getEmail()) == null) {
 			try {
 				return sellerRepo.save(obj);
 			} catch (Exception e) {
@@ -53,15 +61,19 @@ public class SellerService {
 				throw new DuplicateEntryException();
 			}
 		}
-		
-		throw new ClientOrSellerHasThisSameEntryException("Seller");
-		
 
+		throw new ClientOrSellerHasThisSameEntryException("Seller");
 
 	}
 
 	@Transactional
 	public Seller update(Seller obj) {
+
+		SellerSS user = UserService.sellerAuthenticated();
+
+		if (!obj.getId().equals(user.getId())) {
+			throw new AuthorizationException();
+		}
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
 		try {

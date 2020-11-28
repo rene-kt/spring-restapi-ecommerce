@@ -12,11 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
+import com.rene.ecommerce.security.ClientSS;
 
 @Service
 public class ClientService {
@@ -30,10 +32,14 @@ public class ClientService {
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
-	@Autowired
-	private SellerRepository sellerReppo;
 
 	public Client findById(Integer id) {
+
+		ClientSS user = UserService.clientAuthenticated();
+
+		if (user == null || !user.getId().equals(id)) {
+			throw new AuthorizationException();
+		}
 		Optional<Client> obj = clientRepo.findById(id);
 
 		try {
@@ -53,24 +59,26 @@ public class ClientService {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		
-			if(sellerRepo.findByEmail(obj.getEmail()) == null) {
-				try {
-					return clientRepo.save(obj);
-				} catch (Exception e) {
-					// TODO: handle exception
-					throw new DuplicateEntryException();
-				}
+		if (sellerRepo.findByEmail(obj.getEmail()) == null) {
+			try {
+				return clientRepo.save(obj);
+			} catch (Exception e) {
+				// TODO: handle exception
+				throw new DuplicateEntryException();
 			}
-			
-			throw new ClientOrSellerHasThisSameEntryException("Seller");
-			
-	
+		}
+
+		throw new ClientOrSellerHasThisSameEntryException("Seller");
 
 	}
 
 	@Transactional
 	public Client update(Client obj) {
+		ClientSS user = UserService.clientAuthenticated();
+		
+		if(!obj.getId().equals(user.getId())) {
+			throw new AuthorizationException();
+		}
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 		return clientRepo.save(obj);
 	}
@@ -85,10 +93,5 @@ public class ClientService {
 		}
 	}
 
-	public boolean hasAnyUserWithThisEmail(String email) {
-		if (sellerReppo.findByEmail(email) != null) {
-			return true;
-		}
-		return false;
-	}
+	
 }

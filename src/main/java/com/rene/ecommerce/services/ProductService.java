@@ -55,6 +55,7 @@ public class ProductService {
 
 	}
 
+	// verificar se é o dono do produto
 	@Transactional
 	public Product update(Product obj, Integer sellerId, Integer categoryId)  {
 		if (Product.isSold(findById(obj.getId()))) {
@@ -66,6 +67,7 @@ public class ProductService {
 		return productRepo.save(obj);
 
 	}
+	// verificar se é o dono do produto
 
 	public void delete(Integer id)  {
 
