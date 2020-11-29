@@ -35,7 +35,7 @@ public class ProductService {
 
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -52,9 +52,9 @@ public class ProductService {
 
 	@Transactional
 	public Product insert(Product obj, Integer categoryId) {
-		
+
 		SellerSS user = UserService.sellerAuthenticated();
-		
+
 		obj.setId(null);
 		obj.setProductOwner(sellerService.findById(user.getId()));
 		obj.setCategory(categoryService.findById(categoryId));
@@ -64,11 +64,11 @@ public class ProductService {
 
 	// verify if its product owner
 	@Transactional
-	public Product update(Product obj, Integer categoryId)  {
+	public Product update(Product obj, Integer categoryId) {
 		SellerSS user = UserService.sellerAuthenticated();
 		Seller seller = sellerService.findById(user.getId());
 
-		if(!obj.getProductOwner().equals(seller)) {
+		if (!obj.getProductOwner().equals(seller)) {
 			throw new AuthorizationException("You're not owner of this product");
 		}
 		if (Product.isSold(findById(obj.getId()))) {
@@ -80,13 +80,13 @@ public class ProductService {
 		return productRepo.save(obj);
 
 	}
-	
-	public void delete(Integer id)  {
+
+	public void delete(Integer id) {
 		SellerSS user = UserService.sellerAuthenticated();
 		Seller seller = sellerService.findById(user.getId());
 		Product obj = findById(id);
-		
-		if(!obj.getProductOwner().equals(seller)) {
+
+		if (!obj.getProductOwner().equals(seller)) {
 			throw new AuthorizationException("You're not owner of this product");
 		}
 		if (Product.isSold(findById(id))) {
@@ -99,34 +99,32 @@ public class ProductService {
 	public List<Product> findAll() {
 		return productRepo.findAll();
 	}
-	
-	
 
 	@Transactional
-	public Product buyProduct(Integer productId)  {
+	public Product buyProduct(Integer productId) {
 
 		if (Product.isSold(findById(productId))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
-		
+
 		ClientSS user = UserService.clientAuthenticated();
-		
+
 		Product boughtProduct = findById(productId);
 		Client buyer = clientService.findById(user.getId());
 
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);
 
-		// add number of buys and number of sells
-		buyer.addNumberOfBuys();
-		boughtProduct.getProductOwner().addNumberOfSells();
+		// thread to add: number of buys and sells | money spent and sold
 		
+		threadAddingValueIntoClientAndSeller(boughtProduct, buyer);
+
 		// thread to send email
 		threadSendEmail(boughtProduct);
 
 		return productRepo.save(boughtProduct);
 	}
-	
+
 	private void threadSendEmail(Product boughtProduct) {
 		Thread threadEmail = new Thread() {
 			public void run() {
@@ -137,4 +135,32 @@ public class ProductService {
 		threadEmail.start();
 	}
 
+	private void threadAddingValueIntoClientAndSeller(Product boughtProduct, Client buyer) {
+		Thread threadAddNumberOfBuysAndSells = new Thread() {
+			public void run() {
+				buyer.addNumberOfBuys();
+				boughtProduct.getProductOwner().addNumberOfSells();
+
+			}
+		};
+		threadAddNumberOfBuysAndSells.start();
+
+		Thread threadAddMoneySpentAndSold = new Thread() {
+			public void run() {
+				Double price = boughtProduct.getPrice();
+				buyer.addSpentMoneyWhenClientBuyAProduct(price);
+				boughtProduct.getProductOwner().addSoldMoneyWhenSellerSellAProduct(price);
+			}
+		};
+		threadAddMoneySpentAndSold.start();
+		try {
+			threadAddNumberOfBuysAndSells.join();
+			threadAddMoneySpentAndSold.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 }

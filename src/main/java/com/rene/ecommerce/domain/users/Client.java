@@ -20,6 +20,7 @@ public class Client extends User {
 	public Client() {
 		setType("Client");
 		setNumberOfBuys(0);
+		setHowMuchMoneyThisClientHasSpent(0.0);
 		
 	}
 
@@ -29,6 +30,10 @@ public class Client extends User {
 	@Column
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer numberOfBuys;
+	
+	@Column
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Double howMuchMoneyThisClientHasSpent;
 
 	@Override
 	@Id
@@ -97,7 +102,20 @@ public class Client extends User {
 	public void setNumberOfBuys(Integer numberOfBuys) {
 		this.numberOfBuys = numberOfBuys;
 	}
+
+	public Double getHowMuchMoneyThisClientHasSpent() {
+		return howMuchMoneyThisClientHasSpent;
+	}
+
+	public void setHowMuchMoneyThisClientHasSpent(Double howMuchMoneyThisClientHasSpent) {
+		this.howMuchMoneyThisClientHasSpent = howMuchMoneyThisClientHasSpent;
+	}
 	
+	public void addSpentMoneyWhenClientBuyAProduct(Double productPrice) {
+		this.howMuchMoneyThisClientHasSpent += productPrice;
+	}
+			
+
 	
 	
 	

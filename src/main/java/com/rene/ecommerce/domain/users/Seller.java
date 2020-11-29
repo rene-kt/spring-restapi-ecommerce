@@ -22,6 +22,7 @@ public class Seller extends User {
 	public Seller() {
 		setType("Seller");
 		setNumberOfSells(0);
+		setHowMuchMoneyThisSellerHasSold(0.0);
 	}
 
 	private List<Product> ownProducts = new ArrayList<>();
@@ -30,6 +31,9 @@ public class Seller extends User {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Integer numberOfSells;
 
+	@Column
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Double howMuchMoneyThisSellerHasSold;
 	
 	
 	@Override
@@ -97,7 +101,18 @@ public class Seller extends User {
 	public void setNumberOfSells(Integer numberOfSells) {
 		this.numberOfSells = numberOfSells;
 	}
+
+	public Double getHowMuchMoneyThisSellerHasSold() {
+		return howMuchMoneyThisSellerHasSold;
+	}
+
+	public void setHowMuchMoneyThisSellerHasSold(Double howMuchMoneyThisSellerHasSold) {
+		this.howMuchMoneyThisSellerHasSold = howMuchMoneyThisSellerHasSold;
+	}
 	
+	public void addSoldMoneyWhenSellerSellAProduct(Double productPrice) {
+		this.howMuchMoneyThisSellerHasSold += productPrice;
+	}
 	
 	
 	
