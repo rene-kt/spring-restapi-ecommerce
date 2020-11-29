@@ -57,6 +57,7 @@ public class ClientService {
 	public Client insert(Client obj) {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+		
 
 		if (sellerRepo.findByEmail(obj.getEmail()) == null) {
 			try {

@@ -99,30 +99,42 @@ public class ProductService {
 	public List<Product> findAll() {
 		return productRepo.findAll();
 	}
+	
+	
 
 	@Transactional
 	public Product buyProduct(Integer productId)  {
 
-		
-		ClientSS user = UserService.clientAuthenticated();
 		if (Product.isSold(findById(productId))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
+		
+		ClientSS user = UserService.clientAuthenticated();
+		
 		Product boughtProduct = findById(productId);
 		Client buyer = clientService.findById(user.getId());
 
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);
 
+		// add number of buys and number of sells
+		buyer.addNumberOfBuys();
+		boughtProduct.getProductOwner().addNumberOfSells();
 		
-		Thread thread = new Thread() {
+		// thread to send email
+		threadSendEmail(boughtProduct);
+
+		return productRepo.save(boughtProduct);
+	}
+	
+	private void threadSendEmail(Product boughtProduct) {
+		Thread threadEmail = new Thread() {
 			public void run() {
 				emailService.sendConfirmationEmailHtml(boughtProduct);
 
 			}
 		};
-		thread.start();
-		return productRepo.save(boughtProduct);
+		threadEmail.start();
 	}
 
 }

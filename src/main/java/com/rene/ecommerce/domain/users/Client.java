@@ -19,9 +19,16 @@ public class Client extends User {
 
 	public Client() {
 		setType("Client");
+		setNumberOfBuys(0);
+		
 	}
 
 	private List<Product> boughtProducts;
+
+	
+	@Column
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer numberOfBuys;
 
 	@Override
 	@Id
@@ -78,5 +85,21 @@ public class Client extends User {
 	public void setBoughtProducts(List<Product> boughtProducts) {
 		this.boughtProducts = boughtProducts;
 	}
+
+	public Integer getNumberOfBuys() {
+		return numberOfBuys;
+	}
+
+	public void addNumberOfBuys() {
+		this.numberOfBuys = this.numberOfBuys + 1;
+	}
+
+	public void setNumberOfBuys(Integer numberOfBuys) {
+		this.numberOfBuys = numberOfBuys;
+	}
+	
+	
+	
+	
 
 }

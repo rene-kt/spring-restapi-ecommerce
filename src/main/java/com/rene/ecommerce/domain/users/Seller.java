@@ -21,10 +21,17 @@ public class Seller extends User {
 
 	public Seller() {
 		setType("Seller");
+		setNumberOfSells(0);
 	}
 
 	private List<Product> ownProducts = new ArrayList<>();
+	
+	@Column
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private Integer numberOfSells;
 
+	
+	
 	@Override
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,6 +85,21 @@ public class Seller extends User {
 	public void setOwnProducts(List<Product> ownProducts) {
 		this.ownProducts = ownProducts;
 	}
+
+	public Integer getNumberOfSells() {
+		return numberOfSells;
+	}
+
+	public void addNumberOfSells() {
+		this.numberOfSells = this.numberOfSells + 1;
+	}
+
+	public void setNumberOfSells(Integer numberOfSells) {
+		this.numberOfSells = numberOfSells;
+	}
+	
+	
+	
 	
 	
 
