@@ -16,7 +16,7 @@ import com.rene.ecommerce.security.ClientSS;
 import com.rene.ecommerce.security.SellerSS;
 
 @Service
-public class ClientDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private ClientRepository clientRepo;

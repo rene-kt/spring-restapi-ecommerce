@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.rene.ecommerce.security.JWTUtil;
 import com.rene.ecommerce.security.filters.JWTAuthenticationFilter;
 import com.rene.ecommerce.security.filters.JWTAuthorizationFilter;
-import com.rene.ecommerce.services.details.ClientDetailsServiceImpl;
+import com.rene.ecommerce.services.details.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 	@Autowired
-	private ClientDetailsServiceImpl clientDetails;
+	private UserDetailsServiceImpl userDetails;
 	
 	@Autowired
 	private JWTUtil jwtUtil;
@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable();
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHER).permitAll().anyRequest().authenticated();
 		http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
-		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, clientDetails));
+		http.addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtUtil, userDetails));
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 	
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	 @Override
 	    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 	     
-		 auth.userDetailsService(clientDetails).passwordEncoder(bCryptPasswordEncoder());
+		 auth.userDetailsService(userDetails).passwordEncoder(bCryptPasswordEncoder());
 
 	    }
 	 
