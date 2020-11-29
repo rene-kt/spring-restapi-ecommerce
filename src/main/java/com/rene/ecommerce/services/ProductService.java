@@ -108,17 +108,15 @@ public class ProductService {
 		}
 
 		ClientSS user = UserService.clientAuthenticated();
-
-		Product boughtProduct = findById(productId);
 		Client buyer = clientService.findById(user.getId());
+		Product boughtProduct = findById(productId);
 
 		buyer.setBoughtProducts(Arrays.asList(boughtProduct));
 		boughtProduct.setBuyerOfTheProduct(buyer);
 
-		// thread to add: number of buys and sells | money spent and sold
+		// method to add: number of buys and sells | money spent and sold
+		addNumberOfBuysAndSellsAndMoneySoldAndSpent(boughtProduct, buyer);
 		
-		threadAddingValueIntoClientAndSeller(boughtProduct, buyer);
-
 		// thread to send email
 		threadSendEmail(boughtProduct);
 
@@ -134,33 +132,19 @@ public class ProductService {
 		};
 		threadEmail.start();
 	}
-
-	private void threadAddingValueIntoClientAndSeller(Product boughtProduct, Client buyer) {
-		Thread threadAddNumberOfBuysAndSells = new Thread() {
-			public void run() {
-				buyer.addNumberOfBuys();
-				boughtProduct.getProductOwner().addNumberOfSells();
-
-			}
-		};
-		threadAddNumberOfBuysAndSells.start();
-
-		Thread threadAddMoneySpentAndSold = new Thread() {
-			public void run() {
-				Double price = boughtProduct.getPrice();
-				buyer.addSpentMoneyWhenClientBuyAProduct(price);
-				boughtProduct.getProductOwner().addSoldMoneyWhenSellerSellAProduct(price);
-			}
-		};
-		threadAddMoneySpentAndSold.start();
-		try {
-			threadAddNumberOfBuysAndSells.join();
-			threadAddMoneySpentAndSold.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	private void addNumberOfBuysAndSellsAndMoneySoldAndSpent(Product boughtProduct, Client buyer) {
+		Seller sel = boughtProduct.getProductOwner();
+		Double price = boughtProduct.getPrice();
+		
+		buyer.addNumberOfBuys();
+		sel.addNumberOfSells();
+		
+		buyer.addSpentMoneyWhenClientBuyAProduct(price);
+		sel.addSoldMoneyWhenSellerSellAProduct(price);
+	
+		
 	}
-	
-	
+
+
 }
