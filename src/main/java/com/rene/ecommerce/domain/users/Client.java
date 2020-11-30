@@ -1,6 +1,7 @@
 package com.rene.ecommerce.domain.users;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,7 @@ public class Client extends User {
 	}
 
 	private List<Product> boughtProducts;
-	private List<Product> productsWished;
+	private Set<Product> productsWished;
 
 	
 	@Column
@@ -102,11 +103,11 @@ public class Client extends User {
 
 	
 	@ManyToMany(mappedBy = "whoWhishesThisProduct")
-	public List<Product> getProductsWished() {
+	public Set<Product> getProductsWished() {
 		return productsWished;
 	}
 
-	public void setProductsWished(List<Product> productsWished) {
+	public void setProductsWished(Set<Product> productsWished) {
 		this.productsWished = productsWished;
 	}
 

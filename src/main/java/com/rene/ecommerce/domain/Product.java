@@ -1,7 +1,7 @@
 package com.rene.ecommerce.domain;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,7 +57,7 @@ public class Product implements Serializable {
 	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "WISHLIST", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
-	private List<Client> whoWhishesThisProduct;
+	private Set<Client> whoWhishesThisProduct;
 
 	public Integer getId() {
 		return id;
@@ -107,11 +107,11 @@ public class Product implements Serializable {
 		this.buyerOfTheProduct = buyerOfTheProduct;
 	}
 
-	public List<Client> getWhoWhishesThisProduct() {
+	public Set<Client> getWhoWhishesThisProduct() {
 		return whoWhishesThisProduct;
 	}
 
-	public void setWhoWhishesThisProduct(List<Client> whoWhishesThisProduct) {
+	public void setWhoWhishesThisProduct(Set<Client> whoWhishesThisProduct) {
 		this.whoWhishesThisProduct = whoWhishesThisProduct;
 	}
 

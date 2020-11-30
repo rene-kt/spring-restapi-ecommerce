@@ -12,6 +12,7 @@ import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
+import com.rene.ecommerce.exceptions.YouHaveAlreadyAddThisProductInYourWishlistException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -60,5 +61,13 @@ public class ResourceExceptionHandler {
 	                "Authorization", e.getMessage(), request.getRequestURI());
 
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	    }
+	  @ExceptionHandler(YouHaveAlreadyAddThisProductInYourWishlistException.class)
+	    public ResponseEntity<StandardError> duplicateWishlist(YouHaveAlreadyAddThisProductInYourWishlistException e, HttpServletRequest request) {
+
+	        StandardError err = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+	                "Duplicate product in your wishlist", e.getMessage(), request.getRequestURI());
+
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	    }
 }

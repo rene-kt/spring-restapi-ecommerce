@@ -18,6 +18,7 @@ import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
+import com.rene.ecommerce.exceptions.YouHaveAlreadyAddThisProductInYourWishlistException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.ProductRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
@@ -126,10 +127,13 @@ public class ClientService {
 		ClientSS user = UserService.clientAuthenticated();
 		Client client = findById(user.getId());
 		
+		if(client.getProductsWished().contains(product)) {
+			throw new YouHaveAlreadyAddThisProductInYourWishlistException();
+		}
+		
 
 		client.getProductsWished().add(product);
 		product.getWhoWhishesThisProduct().add(client);
-		
 		
 		clientRepo.save(client);
 		productRepo.save(product);

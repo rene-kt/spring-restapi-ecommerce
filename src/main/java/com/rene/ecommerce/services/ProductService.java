@@ -121,7 +121,7 @@ public class ProductService {
 		threadSendEmail(boughtProduct);
 		
 		// remove product from wishList
-		productRepo.removeFromWishList(boughtProduct.getId());
+		threadRemoveProductFromWishlist(boughtProduct);
 
 		return productRepo.save(boughtProduct);
 	}
@@ -150,5 +150,16 @@ public class ProductService {
 		
 	}
 	
+	private void threadRemoveProductFromWishlist(Product boughtProduct) {
+		Thread threadRemove = new Thread() {
+			public void run() {
+
+			}
+		};
+		threadRemove.start();
+	}
+
+
+
 
 }
