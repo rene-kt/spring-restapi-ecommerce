@@ -17,6 +17,7 @@ import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
+import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.ProductRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
@@ -117,6 +118,11 @@ public class ClientService {
 	public void setProductAsWished(Integer productId) {
 		
 		Product product = productService.findById(productId);
+		
+		if(Product.isSold(product)) {
+			throw new ProductHasAlreadyBeenSold();
+		}
+		
 		ClientSS user = UserService.clientAuthenticated();
 		Client client = findById(user.getId());
 		

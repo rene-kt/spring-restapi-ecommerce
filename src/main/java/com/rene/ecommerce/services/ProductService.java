@@ -119,10 +119,14 @@ public class ProductService {
 		
 		// thread to send email
 		threadSendEmail(boughtProduct);
+		
+		// remove product from wishList
+		productRepo.removeFromWishList(boughtProduct.getId());
 
 		return productRepo.save(boughtProduct);
 	}
 
+	
 	private void threadSendEmail(Product boughtProduct) {
 		Thread threadEmail = new Thread() {
 			public void run() {
@@ -146,7 +150,5 @@ public class ProductService {
 		
 	}
 	
-
-
 
 }
