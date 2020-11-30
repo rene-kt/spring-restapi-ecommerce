@@ -57,5 +57,12 @@ public class ClientResource {
 
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PutMapping("/client/wishlist/{productId}")
+	public ResponseEntity<Void> setProductAsWished(@PathVariable Integer productId){
+		service.setProductAsWished(productId);
+		return ResponseEntity.noContent().build();
+
+	}
 
 }

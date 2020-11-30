@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -25,6 +26,7 @@ public class Client extends User {
 	}
 
 	private List<Product> boughtProducts;
+	private List<Product> productsWished;
 
 	
 	@Column
@@ -34,6 +36,9 @@ public class Client extends User {
 	@Column
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Double howMuchMoneyThisClientHasSpent;
+	
+	
+	
 
 	@Override
 	@Id
@@ -93,6 +98,16 @@ public class Client extends User {
 
 	public Integer getNumberOfBuys() {
 		return numberOfBuys;
+	}
+
+	
+	@ManyToMany(mappedBy = "whoWhishesThisProduct")
+	public List<Product> getProductsWished() {
+		return productsWished;
+	}
+
+	public void setProductsWished(List<Product> productsWished) {
+		this.productsWished = productsWished;
 	}
 
 	public void addNumberOfBuys() {

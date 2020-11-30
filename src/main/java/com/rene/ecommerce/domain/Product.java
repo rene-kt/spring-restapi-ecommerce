@@ -1,6 +1,7 @@
 package com.rene.ecommerce.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,8 +22,7 @@ public class Product implements Serializable {
 	public Product() {
 		setBuyerOfTheProduct(null);
 	}
-	
-	
+
 	public Product(Integer id, String name, Double price, Category category, Seller productOwner) {
 		super();
 		this.id = id;
@@ -30,7 +31,6 @@ public class Product implements Serializable {
 		this.category = category;
 		this.productOwner = productOwner;
 	}
-
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,6 @@ public class Product implements Serializable {
 	private String name;
 	private Double price;
 
-	
 	@ManyToOne
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Category category;
@@ -49,11 +48,16 @@ public class Product implements Serializable {
 	@ManyToOne
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
 	private Seller productOwner;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinTable(name = "CLIENT_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
 	private Client buyerOfTheProduct;
+	
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "WISHLIST", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
+	private List<Client> whoWhishesThisProduct;
 
 	public Integer getId() {
 		return id;
@@ -95,34 +99,33 @@ public class Product implements Serializable {
 		this.category = category;
 	}
 
-
 	public Client getBuyerOfTheProduct() {
 		return buyerOfTheProduct;
 	}
 
-
 	public void setBuyerOfTheProduct(Client buyerOfTheProduct) {
 		this.buyerOfTheProduct = buyerOfTheProduct;
 	}
-	
-	 
-    public static boolean isSold(Product obj) {
-    	
-    	if(obj.getBuyerOfTheProduct() != null) {
-    		return true;
-    	}
-    	return false;
-    }
 
+	public List<Client> getWhoWhishesThisProduct() {
+		return whoWhishesThisProduct;
+	}
+
+	public void setWhoWhishesThisProduct(List<Client> whoWhishesThisProduct) {
+		this.whoWhishesThisProduct = whoWhishesThisProduct;
+	}
+
+	public static boolean isSold(Product obj) {
+
+		if (obj.getBuyerOfTheProduct() != null) {
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
 		return "Product [name=" + name + ", price=" + price + ", productOwner=" + productOwner.getName() + "]";
 	}
-
-    
-
-	
-	
 
 }

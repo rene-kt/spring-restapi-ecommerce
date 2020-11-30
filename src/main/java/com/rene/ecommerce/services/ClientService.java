@@ -11,12 +11,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
+import com.rene.ecommerce.repositories.ProductRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.ClientSS;
 
@@ -28,9 +30,18 @@ public class ClientService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
+	
+	@Autowired
+	private ProductRepository productRepo;
+
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+
+	@Autowired
+	private ProductService productService;
+
 
 	public Client findById(Integer id) {
 
@@ -101,6 +112,21 @@ public class ClientService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("You can't delete this object");
 		}
+	}
+	
+	public void setProductAsWished(Integer productId) {
+		
+		Product product = productService.findById(productId);
+		ClientSS user = UserService.clientAuthenticated();
+		Client client = findById(user.getId());
+		
+
+		client.getProductsWished().add(product);
+		product.getWhoWhishesThisProduct().add(client);
+		
+		
+		clientRepo.save(client);
+		productRepo.save(product);
 	}
 
 }
