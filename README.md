@@ -16,6 +16,22 @@
 - PostgreSQL
 - Heroku (to deploy the application) 
 
+## Features :fire: 
+
+#### to both users: 
+- Sign up and Sign in
+- Update, Delete yourself
+
+#### only for clients
+- Add product in your wishlist
+- Buy product (when this happens, an email is sent to client and to the seller) 
+
+#### only for sellers
+- Create, update and delete products 
+- Create, update and delete categories
+- Sell a product
+
+
 ## How to use :wave: (IF YOU WANT TO USE IT LOCALLY) 
 
 To clone and run this application by yourself, make sure you have at least Java 8 and all JDK stuff (including JRE), Maven to build the dependencies,
