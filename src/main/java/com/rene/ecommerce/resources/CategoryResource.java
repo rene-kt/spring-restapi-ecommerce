@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,13 +18,19 @@ import com.rene.ecommerce.domain.Category;
 import com.rene.ecommerce.domain.dto.CategoryDTO;
 import com.rene.ecommerce.services.CategoryService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
+@Api(value = "Category resource")
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/ecommerce")
 public class CategoryResource {
 
 	@Autowired
 	private CategoryService service;
 
+	@ApiOperation(value = "Return a category by id")
 	@GetMapping("category/{id}")
 	public ResponseEntity<CategoryDTO> findById(@PathVariable Integer id) {
 
@@ -33,7 +40,7 @@ public class CategoryResource {
 		
 		return ResponseEntity.ok().body(category);
 	}
-	
+	@ApiOperation(value = "Return all categories")
 	@GetMapping("categories")
 	public ResponseEntity<List<Category>> findAll() {
 		
@@ -42,6 +49,7 @@ public class CategoryResource {
 	
 
 	@PostMapping("seller/category")
+	@ApiOperation(value = "Create a category")
 	public ResponseEntity<Category> insert(@RequestBody Category obj) {
 
 		service.insert(obj);
@@ -50,6 +58,7 @@ public class CategoryResource {
 	}
 	
 	@PutMapping("seller/category")
+	@ApiOperation(value = "Edit a category")
 	public ResponseEntity<Void> update(@RequestBody Category obj){
 	
 	service.update(obj);
@@ -57,6 +66,7 @@ public class CategoryResource {
 	}
 	
 	@DeleteMapping("seller/category/{id}")
+	@ApiOperation(value = "Delete a category")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
 		
