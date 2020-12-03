@@ -99,5 +99,5 @@ public class SellerService {
 		} catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityViolationException("You can't delete this object");
 		}
-
+	}
 }
