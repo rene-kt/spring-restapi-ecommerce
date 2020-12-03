@@ -1,5 +1,6 @@
 package com.rene.ecommerce.services;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -46,6 +47,10 @@ public class SellerService {
 			throw new ObjectNotFoundException();
 		}
 
+	}
+	
+	public List<Seller> findAll(){
+		return sellerRepo.findAll();
 	}
 
 	@Transactional
