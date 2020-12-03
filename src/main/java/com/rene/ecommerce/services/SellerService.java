@@ -18,7 +18,6 @@ import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
-import com.rene.ecommerce.security.ClientSS;
 import com.rene.ecommerce.security.SellerSS;
 
 @Service
