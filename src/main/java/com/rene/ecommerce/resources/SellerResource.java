@@ -2,6 +2,7 @@ package com.rene.ecommerce.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,21 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.services.SellerService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 
 @RestController
 @RequestMapping(value = "/ecommerce")
+@Api(value = "Client resource")
+@CrossOrigin(origins = "*")
 public class SellerResource {
 
 	@Autowired
 	private SellerService service;
 
 	@GetMapping("/seller/{id}")
+	@ApiOperation(value = "Return a seller by id")
 	public ResponseEntity<Seller> findById(@PathVariable Integer id) {
 
 		Seller obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
+	@ApiOperation(value = "Create a seller")
 	@PostMapping("/create/seller")
 	public ResponseEntity<Seller> insert(@RequestBody Seller obj) {
 
@@ -37,6 +45,7 @@ public class SellerResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@ApiOperation(value = "Update a seller")
 	@PutMapping("/seller/update")
 	public ResponseEntity<Void> update(@RequestBody Seller obj){
 	
@@ -44,6 +53,7 @@ public class SellerResource {
 	return ResponseEntity.noContent().build();
 	}
 	
+	@ApiOperation(value = "Delete a seller")
 	@DeleteMapping("/seller/delete/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
