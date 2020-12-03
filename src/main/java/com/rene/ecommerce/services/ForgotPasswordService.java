@@ -69,9 +69,9 @@ public class ForgotPasswordService {
 	
 
 	private String newPassword() {
-		char[] vet = new char[10];
+		char[] vet = new char[6];
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 6; i++) {
 			vet[i] = randomChar();
 		}
 
