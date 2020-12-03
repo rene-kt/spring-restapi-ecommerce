@@ -78,6 +78,7 @@ public abstract class AbstractEmailService implements EmailService {
 		return mm;
 	}
 
+
 	protected SimpleMailMessage prepareSimpleMessageFromProductToClient(Product obj) {
 		SimpleMailMessage sm = new SimpleMailMessage();
 
@@ -112,6 +113,25 @@ public abstract class AbstractEmailService implements EmailService {
 		context.setVariable("product", obj);
 		return templateEngine.process("email/Seller", context);
 
+	}
+	
+	
+	@Override
+	public void sendNewPassword(String email, String newPassword) {
+		// TODO Auto-generated method stub
+		SimpleMailMessage sm = prepareNewPasswordEmail(email, newPassword);
+		sendEmail(sm);
+	}
+	
+	
+	protected SimpleMailMessage prepareNewPasswordEmail(String email, String newPass) {
+		SimpleMailMessage sm = new SimpleMailMessage();
+		sm.setTo(email);
+		sm.setFrom(sender);
+		sm.setSubject("New password");
+		sm.setSentDate(new Date(System.currentTimeMillis()));
+		sm.setText("New password: " + newPass);
+		return sm;
 	}
 
 }

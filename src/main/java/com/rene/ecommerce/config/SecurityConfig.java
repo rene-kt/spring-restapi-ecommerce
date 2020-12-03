@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] PUBLIC_MATCHER = {
 
-			"/ecommerce/create/**", "/ecommerce/products", "/ecommerce/product/**",
+			"/ecommerce/create/**", "/ecommerce/products","/ecommerce/forgot", "/ecommerce/product/**",
 			
 	};
 
