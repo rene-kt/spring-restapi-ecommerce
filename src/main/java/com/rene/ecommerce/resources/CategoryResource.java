@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(value = "Category resource")
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/ecommerce")
+@RequestMapping
 public class CategoryResource {
 
 	@Autowired

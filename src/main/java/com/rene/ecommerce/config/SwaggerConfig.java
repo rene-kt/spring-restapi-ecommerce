@@ -18,7 +18,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket ecommerceApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.rene.ecommerce")).paths(PathSelectors.regex("/ecommerce.*")).build()
+				.apis(RequestHandlerSelectors.basePackage("com.rene.ecommerce")).paths(PathSelectors.regex("/.*")).build()
 				.apiInfo(metaInfo());
 	}
 

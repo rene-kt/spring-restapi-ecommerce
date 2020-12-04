@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @Api(value = "Forgot new password")
 @CrossOrigin(origins = "*")
-@RequestMapping(value = "/ecommerce")
+@RequestMapping
 public class AuthResource {
 
 	@Autowired
