@@ -23,7 +23,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/ecommerce")
+@RequestMapping
 @Api(value = "Product resource")
 @CrossOrigin(origins = "*")
 public class ProductResource {
