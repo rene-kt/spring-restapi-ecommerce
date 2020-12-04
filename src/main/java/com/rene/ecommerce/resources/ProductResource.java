@@ -51,7 +51,7 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Create a product")
-	@PostMapping("seller/create/product/{categoryId}")
+	@PostMapping("/product/{categoryId}")
 	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer categoryId) {
 
 		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
@@ -62,7 +62,7 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Update a product")
-	@PutMapping("seller/edit/product/{categoryId}")
+	@PutMapping("/product/{categoryId}")
 	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
 			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
 
@@ -74,7 +74,7 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Buy a product and send a confirmation email to client and to the seller")
-	@PutMapping("client/buy/product/{productId}")
+	@PutMapping("buy/{productId}")
 	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId) {
 
 		try {
@@ -88,7 +88,7 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Delete a product")
-	@DeleteMapping("seller/delete/product/{id}")
+	@DeleteMapping("product/{id}")
 	public ResponseEntity<Object> delete(@PathVariable Integer id) {
 
 		service.delete(id);

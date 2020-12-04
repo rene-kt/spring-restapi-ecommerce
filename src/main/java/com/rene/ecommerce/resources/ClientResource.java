@@ -52,7 +52,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PutMapping("/client/update")
+	@PutMapping("/update/client")
 	@ApiOperation(value = "Update a client ")
 	public ResponseEntity<Client> update(@RequestBody Client obj){
 
@@ -60,7 +60,7 @@ public class ClientResource {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@DeleteMapping("/client/delete")
+	@DeleteMapping("/delete/client")
 	@ApiOperation(value = "Delete a client")
 	public ResponseEntity<Void> delete() {
 		service.delete();
@@ -68,7 +68,7 @@ public class ClientResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/client/wishlist/{productId}")
+	@PutMapping("/wishlist/{productId}")
 	@ApiOperation(value = "Add a product in your wishlist")
 	public ResponseEntity<Void> setProductAsWished(@PathVariable Integer productId){
 		service.setProductAsWished(productId);
