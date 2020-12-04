@@ -20,7 +20,7 @@
 
 #### to both users: 
 - Sign up and Sign in
-- Update, Delete yourself
+- Update and Delete yourself
 
 #### only for clients
 - Add product in your wishlist
@@ -48,7 +48,7 @@ $ git clone https://github.com/reness0/spring-restapi-ecommerce
 - Run ```EcommerceApplication.java```
   > This is gonna be building the maven dependencies too
 
-- The endpoints are located in 'http://localhost:3000/ecommerce' and config its port on ```src/main/resources/application.properties```
+- The endpoints are located in 'http://localhost:3000/' and config its port on ```src/main/resources/application.properties```
   > Use a software like postman to do the resquests. 
   
 - Make sure to create a database called **ecommerce** 
@@ -62,7 +62,7 @@ $ git clone https://github.com/reness0/spring-restapi-ecommerce
 ## If you only want to use the API without cloning the project 
 
 - Open a software like postman to do the requests
-- Acess the endpoints through  https://renejr-ecommerce.herokuapp.com/ecommerce
+- Acess the endpoints through  https://renejr-ecommerce.herokuapp.com/
 
 ## Usage of the application 
 
