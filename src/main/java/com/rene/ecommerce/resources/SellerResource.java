@@ -65,7 +65,7 @@ public class SellerResource {
 	
 	@ApiOperation(value = "Delete a seller")
 	@DeleteMapping("/seller/delete")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(){
 		service.delete();
 		
 		return ResponseEntity.noContent().build();

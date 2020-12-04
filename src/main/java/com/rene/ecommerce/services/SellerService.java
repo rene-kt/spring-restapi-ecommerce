@@ -90,7 +90,7 @@ public class SellerService {
 
 	}
 
-	public void delete(Integer id) {
+	public void delete() {
 		SellerSS user = UserService.sellerAuthenticated();
 
 		try {
