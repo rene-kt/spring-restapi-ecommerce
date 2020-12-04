@@ -48,7 +48,7 @@ public class CategoryResource {
 	}
 	
 
-	@PostMapping("seller/category")
+	@PostMapping("category")
 	@ApiOperation(value = "Create a category")
 	public ResponseEntity<Category> insert(@RequestBody Category obj) {
 
@@ -57,7 +57,7 @@ public class CategoryResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@PutMapping("seller/category")
+	@PutMapping("category")
 	@ApiOperation(value = "Edit a category")
 	public ResponseEntity<Void> update(@RequestBody Category obj){
 	
@@ -65,7 +65,7 @@ public class CategoryResource {
 	return ResponseEntity.noContent().build();
 	}
 	
-	@DeleteMapping("seller/category/{id}")
+	@DeleteMapping("category/{id}")
 	@ApiOperation(value = "Delete a category")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		service.delete(id);
