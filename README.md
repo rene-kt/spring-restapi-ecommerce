@@ -74,7 +74,7 @@ start using it.
 Swagger is responsible to provide a documentation of the API, it break down the endpoints and the models of the application.
 Check it out:  https://renejr-ecommerce.herokuapp.com/swagger-ui.html 
 
-![swagger](https://user-images.githubusercontent.com/49681380/101045417-065f3480-355f-11eb-8899-c9fe12e174cc.png)
+![image](https://user-images.githubusercontent.com/49681380/101172029-5e5d7000-361f-11eb-8071-0a6a205a1713.png)
 
 
 ## How to contribute :question:
