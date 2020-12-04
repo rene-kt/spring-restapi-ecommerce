@@ -7,16 +7,37 @@
 - Java
 - Spring boot
 - Spring Data JPA 
+- Spring security 
+- JWT
+- SMTP Email service
 - Postman
 - Eclipse 
 - Swagger 
 - PostgreSQL
 - Heroku (to deploy the application) 
 
-## How to use :wave:
+## Features :fire: 
+
+#### to both users: 
+- Sign up and Sign in
+- Update, Delete yourself
+
+#### only for clients
+- Add product in your wishlist
+- Buy product (when this happens, an email is sent to client and to the seller) 
+
+#### only for sellers
+- Create, update and delete products 
+- Create, update and delete categories
+- Sell a product
+
+
+## How to use :wave: (IF YOU WANT TO USE IT LOCALLY) 
 
 To clone and run this application by yourself, make sure you have at least Java 8 and all JDK stuff (including JRE), Maven to build the dependencies,
 Ecplise or STS, and Postman (it's not necessary, though it's really useful to handle a rest API. After that, do the following instructions
+
+- Switch the branch to ```running-locally```
 
 - Clone this repository
 ```bash
@@ -27,17 +48,26 @@ $ git clone https://github.com/reness0/spring-restapi-ecommerce
 - Run ```EcommerceApplication.java```
   > This is gonna be building the maven dependencies too
 
-- The endpoints are located on 'http://localhost:3000/ecommerce'
+- The endpoints are located in 'http://localhost:3000/ecommerce' and config its port on ```src/main/resources/application.properties```
   > Use a software like postman to do the resquests. 
   
 - Make sure to create a database called **ecommerce** 
-  > or create it with another name. However, you must to rename its name on ```application.properties```
+  > or create it with another name. However, you must to rename its name in ```src/main/resources/application.properties```
 
- 
+ **By the way, you can change the port (3000) to another one, just change the line in ```src/main/resources/application.properties```**
+
+  **Now, you are able to run this Java application locally.** :heavy_check_mark:
 
 
- **By the way, you can change the port (3000) to another one, just change the line on ``` application.properties ```**
+## If you only want to use the API without cloning the project 
 
+- Open a software like postman to do the requests
+- Acess the endpoints through  https://renejr-ecommerce.herokuapp.com/ecommerce
+
+## Usage of the application 
+
+In this [document](usage.md), there are some steps that you must to follow to use this application. I recommend to take a read before
+start using it.
 
 # API Documentation :memo:
 
@@ -46,8 +76,6 @@ Check it out:  https://renejr-ecommerce.herokuapp.com/swagger-ui.html
 
 ![swagger](https://user-images.githubusercontent.com/49681380/101045417-065f3480-355f-11eb-8899-c9fe12e174cc.png)
 
-
-**Now, you are able to run this Java application locally.** :heavy_check_mark:
 
 ## How to contribute :question:
 
