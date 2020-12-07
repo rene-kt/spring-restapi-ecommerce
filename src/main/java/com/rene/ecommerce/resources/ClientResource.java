@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rene.ecommerce.domain.dto.ranking.ClientRankingDTO;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.services.ClientService;
+import com.rene.ecommerce.services.RankingService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +30,9 @@ public class ClientResource {
 
 	@Autowired
 	private ClientService service;
+	
+	@Autowired
+	private RankingService ranking;
 
 	@GetMapping("/clients")
 	@ApiOperation(value = "Return all clients")
@@ -76,4 +81,11 @@ public class ClientResource {
 
 	}
 
+	@ApiOperation(value = "Return a list of clients who spents more money")
+	@GetMapping("/clients/ranking")
+	public ResponseEntity<List<ClientRankingDTO>> returnRankingClient() {
+
+		
+		return ResponseEntity.ok().body(ranking.returnRankingClient());
+	}
 }
