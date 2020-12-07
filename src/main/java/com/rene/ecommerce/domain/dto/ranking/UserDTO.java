@@ -6,6 +6,21 @@ public abstract class UserDTO {
 	private String name;
 	private Integer sellsOrBuys;
 	private Double money;
+	
+	public UserDTO() {
+		
+	}
+	
+	
+	public UserDTO(Integer id, String name, Integer sellsOrBuys, Double money) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.sellsOrBuys = sellsOrBuys;
+		this.money = money;
+	}
+
+
 	public Integer getId() {
 		return id;
 	}

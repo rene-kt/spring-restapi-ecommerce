@@ -89,7 +89,7 @@ public class ProductResource {
 
 	@ApiOperation(value = "Delete a product")
 	@DeleteMapping("product/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Integer id) {
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
 		service.delete(id);
 		return ResponseEntity.ok().build();

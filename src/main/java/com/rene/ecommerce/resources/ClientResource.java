@@ -81,10 +81,10 @@ public class ClientResource {
 
 	}
 
-	@ApiOperation(value = "Return a list of clients who spents more money")
+	@ApiOperation(value = "Return a list of clients who buys the most")
 	@GetMapping("/clients/ranking")
 	public ResponseEntity<List<ClientRankingDTO>> returnRankingClient() {
-
+		
 		
 		return ResponseEntity.ok().body(ranking.returnRankingClient());
 	}

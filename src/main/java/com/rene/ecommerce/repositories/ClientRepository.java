@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.rene.ecommerce.domain.dto.ranking.ClientRankingDTO;
 import com.rene.ecommerce.domain.users.Client;
 
 
@@ -24,6 +23,6 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 	
 	
 	@Modifying
-	@Query(value="select id, name, numberOfBuys,  howMuchMoneyThisClientHasSpent from tb_clients order by howMuchMoneyThisClientHasSpent DESC limit 10 ",nativeQuery = true)
-	List<ClientRankingDTO> returnRankingClient();
+	@Query(value="select * from tb_clients order by how_Much_Money_This_Client_Has_Spent DESC limit 10 ",nativeQuery = true)
+	List<Client> returnRankingClient();
 }

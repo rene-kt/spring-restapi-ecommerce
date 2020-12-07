@@ -1,5 +1,6 @@
 package com.rene.ecommerce.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.dto.ranking.ClientRankingDTO;
 import com.rene.ecommerce.domain.dto.ranking.SellerRankingDTO;
+import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 
@@ -22,7 +24,15 @@ public class RankingService {
 	
 	public List<ClientRankingDTO> returnRankingClient(){
 		
-		return clientRepo.returnRankingClient();
+		List<Client> clients = clientRepo.returnRankingClient();
+		List<ClientRankingDTO> rankingDTO = new ArrayList<>();
+		
+		clients.stream().forEach( x-> rankingDTO.add(new ClientRankingDTO
+				(x.getId(), x.getName(), x.getNumberOfBuys(), 
+						x.getHowMuchMoneyThisClientHasSpent())));
+		
+		
+		return rankingDTO;
 	}
 	
 	public List<SellerRankingDTO> returnRankingSeller(){
