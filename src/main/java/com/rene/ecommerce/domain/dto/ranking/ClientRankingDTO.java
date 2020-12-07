@@ -1,5 +1,5 @@
 package com.rene.ecommerce.domain.dto.ranking;
 
-public class ClientRankingDTO {
+public class ClientRankingDTO extends UserDTO{
 
 }
