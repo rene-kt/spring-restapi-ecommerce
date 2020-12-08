@@ -14,7 +14,11 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	
 	@Modifying
 	@Query(value="delete from wishlist where product_id = :id",nativeQuery = true)
-	void removeFromWishList(@Param("id") Integer id);
+	void removeFromWishListWhenIsSold(@Param("id") Integer id);
+	
+	@Modifying
+	@Query(value="delete from wishlist where product_id = :productId and client_id = :clientId",nativeQuery = true)
+	void removeFromClientWishlist(@Param("productId") Integer productId, @Param("clientId") Integer clientId);
 	
 
 }

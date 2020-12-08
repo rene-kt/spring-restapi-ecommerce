@@ -39,6 +39,9 @@ public class ProductService {
 	@Autowired
 	private EmailService emailService;
 
+	
+	@Autowired
+	private WishlistService wishlistService;
 	public Product findById(Integer id) {
 		Optional<Product> obj = productRepo.findById(id);
 
@@ -153,7 +156,7 @@ public class ProductService {
 	private void threadRemoveProductFromWishlist(Product boughtProduct) {
 		Thread threadRemove = new Thread() {
 			public void run() {
-
+				wishlistService.removeProductFromWishlistWhenIsSold(boughtProduct.getId());
 			}
 		};
 		threadRemove.start();
