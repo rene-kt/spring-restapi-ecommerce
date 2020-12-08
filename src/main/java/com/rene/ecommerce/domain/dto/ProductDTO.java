@@ -14,6 +14,7 @@ public class ProductDTO implements Serializable {
 	private Integer id;
 	private String name;
 	private Double price;
+	private String description;
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Category category;
@@ -29,7 +30,7 @@ public class ProductDTO implements Serializable {
 	}
 
 	public ProductDTO(Integer id, String name, Double price, Category category, Seller productOwner,
-			Client buyerOfTheProduct) {
+			Client buyerOfTheProduct, String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -37,6 +38,7 @@ public class ProductDTO implements Serializable {
 		this.category = category;
 		this.productOwner = productOwner;
 		this.buyerOfTheProduct = buyerOfTheProduct;
+		this.description = description;
 	}
 
 	public Integer getId() {
@@ -87,8 +89,18 @@ public class ProductDTO implements Serializable {
 		this.buyerOfTheProduct = buyerOfTheProduct;
 	}
 	
+	
+	
 	 
-    public static boolean isSold(ProductDTO obj) {
+    public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public static boolean isSold(ProductDTO obj) {
     	
     	if(obj.getBuyerOfTheProduct() == null) {
     		return false;

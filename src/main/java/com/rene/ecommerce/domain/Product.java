@@ -23,14 +23,16 @@ public class Product implements Serializable {
 		setBuyerOfTheProduct(null);
 	}
 
-	public Product(Integer id, String name, Double price, Category category, Seller productOwner) {
+	public Product(Integer id, String name, Double price, Category category, Seller productOwner, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
 		this.category = category;
 		this.productOwner = productOwner;
+		this.description = description;
 	}
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,6 +42,7 @@ public class Product implements Serializable {
 
 	private String name;
 	private Double price;
+	private String description;
 
 	@ManyToOne
 	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -113,6 +116,15 @@ public class Product implements Serializable {
 
 	public void setWhoWhishesThisProduct(Set<Client> whoWhishesThisProduct) {
 		this.whoWhishesThisProduct = whoWhishesThisProduct;
+	}
+
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public static boolean isSold(Product obj) {
