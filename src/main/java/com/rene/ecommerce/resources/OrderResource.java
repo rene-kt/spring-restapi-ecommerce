@@ -25,20 +25,41 @@ public class OrderResource {
 	@Autowired
 	private OrderService service;
 
-	@ApiOperation(value = "Return a order by id")
-	@GetMapping("/order/{id}")
-	public ResponseEntity<Order> findById(@PathVariable Integer id) {
+	@ApiOperation(value = "Return a client order by id")
+	@GetMapping("client/order/{id}")
+	public ResponseEntity<Order> findByIdAsClient(@PathVariable Integer id) {
 
-		Order obj = service.findById(id);
+		// true means that the user is a client
+		Order obj = service.findById(id, true);
 		
 		
 		return ResponseEntity.ok().body(obj);
 	}
-	@ApiOperation(value = "Return all orders")
-	@GetMapping("/orders")
+	@ApiOperation(value = "Return all client orders")
+	@GetMapping("client/orders")
+	public ResponseEntity<List<Order>> findAllAsClient() {
+		
+		// true means that the user is a client
+		return ResponseEntity.ok().body(service.findAll(true));
+	}
+	
+	@ApiOperation(value = "Return a seller order by id")
+	@GetMapping("seller/order/{id}")
+	public ResponseEntity<Order> findByIdAsSeller(@PathVariable Integer id) {
+
+		// false means that the user is a seller
+		Order obj = service.findById(id, false);
+		
+		
+		return ResponseEntity.ok().body(obj);
+	}
+	@ApiOperation(value = "Return all seller orders")
+	@GetMapping("seller/orders")
 	public ResponseEntity<List<Order>> findAll() {
 		
-		return ResponseEntity.ok().body(service.findAll());
+		// false means that the user is a seller
+		return ResponseEntity.ok().body(service.findAll(false));
 	}
+	
 	
 }

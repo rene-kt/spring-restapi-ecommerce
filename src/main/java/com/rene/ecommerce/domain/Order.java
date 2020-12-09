@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
@@ -41,6 +42,7 @@ public class Order implements Serializable{
 	@JoinTable(name = "order_client", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
 	private Client buyer;
 
+	@JsonIgnore
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@ManyToOne
 	@JoinTable(name = "order_seller", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
@@ -91,6 +93,7 @@ public class Order implements Serializable{
 
 
 
+	@JsonIgnore
 	public Seller getSeller() {
 		return seller;
 	}
