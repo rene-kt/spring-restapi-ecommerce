@@ -3,7 +3,6 @@ package com.rene.ecommerce.domain.dto;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.rene.ecommerce.domain.Category;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
 
@@ -16,8 +15,6 @@ public class ProductDTO implements Serializable {
 	private Double price;
 	private String description;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	private Category category;
 	
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Seller productOwner;
@@ -29,13 +26,12 @@ public class ProductDTO implements Serializable {
 
 	}
 
-	public ProductDTO(Integer id, String name, Double price, Category category, Seller productOwner,
+	public ProductDTO(Integer id, String name, Double price, Seller productOwner,
 			Client buyerOfTheProduct, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.category = category;
 		this.productOwner = productOwner;
 		this.buyerOfTheProduct = buyerOfTheProduct;
 		this.description = description;
@@ -63,14 +59,6 @@ public class ProductDTO implements Serializable {
 
 	public void setPrice(Double price) {
 		this.price = price;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
 	}
 
 	public Seller getProductOwner() {

@@ -36,7 +36,7 @@ public class ProductResource {
 	public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
 
 		Product obj = service.findById(id);
-		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getCategory(),
+		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(),
 				obj.getProductOwner(), obj.getBuyerOfTheProduct(), obj.getDescription());
 		return ResponseEntity.ok().body(dto);
 	}
@@ -51,12 +51,12 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Create a product")
-	@PostMapping("/product/{categoryId}")
-	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer categoryId) {
+	@PostMapping("/product")
+	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj) {
 
-		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null,obj.getDescription());
+		Product product = new Product(null, obj.getName(), obj.getPrice(), null,obj.getDescription());
 
-		service.insert(product, categoryId);
+		service.insert(product);
 
 		return ResponseEntity.ok().body(product);
 	}
@@ -66,9 +66,9 @@ public class ProductResource {
 	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
 			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
 
-		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null, obj.getDescription());
+		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, obj.getDescription());
 
-		service.update(product, categoryId);
+		service.update(product);
 
 		return ResponseEntity.ok().body(product);
 	}

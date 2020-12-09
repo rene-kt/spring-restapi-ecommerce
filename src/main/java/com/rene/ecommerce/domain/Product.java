@@ -27,12 +27,11 @@ public class Product implements Serializable {
 		setHasBeenSold("Unsold");
 	}
 
-	public Product(Integer id, String name, Double price, Category category, Seller productOwner, String description) {
+	public Product(Integer id, String name, Double price,  Seller productOwner, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.category = category;
 		this.productOwner = productOwner;
 		this.description = description;
 	}
@@ -52,9 +51,7 @@ public class Product implements Serializable {
 	@Column
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String hasBeenSold;
-	@ManyToOne
-	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Category category;
+
 
 	@ManyToOne
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
@@ -112,14 +109,7 @@ public class Product implements Serializable {
 		this.productOwner = productOwner;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
+	
 	public Client getBuyerOfTheProduct() {
 		return buyerOfTheProduct;
 	}

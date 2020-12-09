@@ -41,9 +41,6 @@ public class ProductService {
 	private ClientService clientService;
 
 	@Autowired
-	private CategoryService categoryService;
-
-	@Autowired
 	private EmailService emailService;
 
 	@Autowired
@@ -61,13 +58,12 @@ public class ProductService {
 	}
 
 	@Transactional
-	public Product insert(Product obj, Integer categoryId) {
+	public Product insert(Product obj) {
 
 		SellerSS user = UserService.sellerAuthenticated();
 
 		obj.setId(null);
 		obj.setProductOwner(sellerService.findById(user.getId()));
-		obj.setCategory(categoryService.findById(categoryId));
 		obj.setHasBeenSold("Unsold");
 		return productRepo.save(obj);
 
@@ -75,7 +71,7 @@ public class ProductService {
 
 	// verify if its product owner
 	@Transactional
-	public Product update(Product obj, Integer categoryId) {
+	public Product update(Product obj) {
 		SellerSS user = UserService.sellerAuthenticated();
 		Seller seller = sellerService.findById(user.getId());
 
@@ -87,7 +83,6 @@ public class ProductService {
 		}
 
 		obj.setProductOwner(seller);
-		obj.setCategory(categoryService.findById(categoryId));
 		return productRepo.save(obj);
 
 	}
