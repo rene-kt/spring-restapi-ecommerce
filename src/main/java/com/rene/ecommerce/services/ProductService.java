@@ -104,7 +104,7 @@ public class ProductService {
 
 	public List<Product> findAll() {
 
-		return productRepo.findAll();
+		return productRepo.findByHasBeenSold("Unsold");
 	}
 
 	@Transactional
