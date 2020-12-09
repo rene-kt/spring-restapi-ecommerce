@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rene.ecommerce.domain.Order;
 import com.rene.ecommerce.domain.Product;
 
 @Entity
@@ -26,6 +27,7 @@ public class Seller extends User {
 	}
 
 	private List<Product> ownProducts = new ArrayList<>();
+	private List<Order> orders;
 	
 	@Column
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -88,6 +90,16 @@ public class Seller extends User {
 
 	public void setOwnProducts(List<Product> ownProducts) {
 		this.ownProducts = ownProducts;
+	}
+	
+
+	@OneToMany(mappedBy = "seller")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public Integer getNumberOfSells() {

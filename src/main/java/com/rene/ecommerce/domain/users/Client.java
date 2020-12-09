@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.rene.ecommerce.domain.Order;
 import com.rene.ecommerce.domain.Product;
 
 @Entity
@@ -28,6 +29,7 @@ public class Client extends User {
 
 	private List<Product> boughtProducts;
 	private Set<Product> productsWished;
+	private List<Order> orders;
 
 	
 	@Column
@@ -37,6 +39,7 @@ public class Client extends User {
 	@Column
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Double howMuchMoneyThisClientHasSpent;
+	
 	
 	
 	
@@ -109,6 +112,17 @@ public class Client extends User {
 
 	public void setProductsWished(Set<Product> productsWished) {
 		this.productsWished = productsWished;
+	}
+	
+	
+	
+	@OneToMany(mappedBy = "buyer")
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public void addNumberOfBuys() {
