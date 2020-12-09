@@ -93,6 +93,7 @@ public class Seller extends User {
 	}
 	
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "seller")
 	public List<Order> getOrders() {
 		return orders;

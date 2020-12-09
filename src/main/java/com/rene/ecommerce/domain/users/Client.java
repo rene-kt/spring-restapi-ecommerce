@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rene.ecommerce.domain.Order;
 import com.rene.ecommerce.domain.Product;
@@ -117,6 +118,7 @@ public class Client extends User {
 	
 	
 	@OneToMany(mappedBy = "buyer")
+	@JsonIgnore
 	public List<Order> getOrders() {
 		return orders;
 	}
