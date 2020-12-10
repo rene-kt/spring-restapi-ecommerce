@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
-import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
+import com.rene.ecommerce.domain.dto.updated.UpdatedProduct;
 import com.rene.ecommerce.services.ProductService;
 
 import io.swagger.annotations.Api;
@@ -36,8 +36,8 @@ public class ProductResource {
 	public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
 
 		Product obj = service.findById(id);
-		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getCategory(),
-				obj.getProductOwner(), obj.getBuyerOfTheProduct());
+		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getProductOwner(),
+				obj.getBuyerOfTheProduct(), obj.getDescription());
 		return ResponseEntity.ok().body(dto);
 	}
 
@@ -51,45 +51,38 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Create a product")
-	@PostMapping("product/{categoryId}")
-	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj, @PathVariable Integer categoryId) {
+	@PostMapping("/product")
+	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj) {
 
-		Product product = new Product(null, obj.getName(), obj.getPrice(), null, null);
+		Product product = new Product(null, obj.getName(), obj.getPrice(), null, obj.getDescription());
 
-		service.insert(product, categoryId);
+		service.insert(product);
 
 		return ResponseEntity.ok().body(product);
 	}
 
 	@ApiOperation(value = "Update a product")
-	@PutMapping("/product/{categoryId}")
-	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
-			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
+	@PutMapping("/product/{productId}")
+	public ResponseEntity<Product> update(@RequestBody UpdatedProduct obj,
+			@PathVariable Integer productId) {
 
-		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, null);
-
-		service.update(product, categoryId);
+		Product product = service.update(obj, productId);
 
 		return ResponseEntity.ok().body(product);
 	}
 
 	@ApiOperation(value = "Buy a product and send a confirmation email to client and to the seller")
 	@PutMapping("buy/{productId}")
-	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId) {
+	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId) {
 
-		try {
-			service.buyProduct(productId);
-			return ResponseEntity.ok().build();
-
-		} catch (ProductHasAlreadyBeenSold e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		service.buyProduct(productId);
+		return ResponseEntity.ok().build();
 
 	}
 
 	@ApiOperation(value = "Delete a product")
-	@DeleteMapping("delete/product/{id}")
-	public ResponseEntity<Object> delete(@PathVariable Integer id) {
+	@DeleteMapping("product/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 
 		service.delete(id);
 		return ResponseEntity.ok().build();

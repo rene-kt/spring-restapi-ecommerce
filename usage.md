@@ -1,7 +1,11 @@
 # Getting started
 First of all, if you're using the application locally:
 
-just use ```localhost:3000/ecommerce``` instead of ```https://renejr-ecommerce.herokuapp.com/ecommerce```
+just use ```localhost:3000/``` instead of ```https://renejr-ecommerce.herokuapp.com/```
+
+
+This url: **"https://renejr-ecommerce.herokuapp.com/ecommerce"** is depreceted, please, use **"https://renejr-ecommerce.herokuapp.com/"** without **"/ecommerce"** to run 
+properly**
 
 ### The first step 
 

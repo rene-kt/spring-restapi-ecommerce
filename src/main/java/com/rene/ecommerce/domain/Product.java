@@ -3,6 +3,7 @@ package com.rene.ecommerce.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
 
@@ -21,16 +24,18 @@ public class Product implements Serializable {
 
 	public Product() {
 		setBuyerOfTheProduct(null);
+		setHasBeenSold("Unsold");
 	}
 
-	public Product(Integer id, String name, Double price, Category category, Seller productOwner) {
+	public Product(Integer id, String name, Double price,  Seller productOwner, String description) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.price = price;
-		this.category = category;
 		this.productOwner = productOwner;
+		this.description = description;
 	}
+
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,10 +45,13 @@ public class Product implements Serializable {
 
 	private String name;
 	private Double price;
+	private String description;
+	
 
-	@ManyToOne
-	@JoinTable(name = "PRODUCT_CATEGORY", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Category category;
+	@Column
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private String hasBeenSold;
+
 
 	@ManyToOne
 	@JoinTable(name = "SELLER_PRODUCT", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "seller_id"))
@@ -58,7 +66,17 @@ public class Product implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "WISHLIST", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "client_id"))
 	private Set<Client> whoWhishesThisProduct;
+	
+	
+	@JsonIgnore
+	@OneToOne(mappedBy = "productOrder")
+	private Order order;
+	
 
+	
+	
+	
+	
 	public Integer getId() {
 		return id;
 	}
@@ -91,14 +109,7 @@ public class Product implements Serializable {
 		this.productOwner = productOwner;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
+	
 	public Client getBuyerOfTheProduct() {
 		return buyerOfTheProduct;
 	}
@@ -115,9 +126,38 @@ public class Product implements Serializable {
 		this.whoWhishesThisProduct = whoWhishesThisProduct;
 	}
 
+	
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
+
+	public String hasBeenSold() {
+		return hasBeenSold;
+	}
+
+	public void setHasBeenSold(String isSold) {
+		this.hasBeenSold = isSold;
+	}
+
 	public static boolean isSold(Product obj) {
 
 		if (obj.getBuyerOfTheProduct() != null) {
+			
 			return true;
 		}
 		return false;

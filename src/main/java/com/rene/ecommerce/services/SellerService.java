@@ -7,15 +7,16 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rene.ecommerce.domain.dto.updated.UpdatedSeller;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
+import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.SellerSS;
@@ -48,8 +49,8 @@ public class SellerService {
 		}
 
 	}
-	
-	public List<Seller> findAll(){
+
+	public List<Seller> findAll() {
 		return sellerRepo.findAll();
 	}
 
@@ -72,31 +73,46 @@ public class SellerService {
 	}
 
 	@Transactional
-	public Seller update(Seller obj) {
+	public Seller update(UpdatedSeller obj) {
 
 		SellerSS user = UserService.sellerAuthenticated();
 
-		if (!obj.getId().equals(user.getId())) {
+		Seller sel = findById(user.getId());
+
+		if (user == null || !user.getId().equals(sel.getId())) {
 			throw new AuthorizationException();
 		}
-		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		try {
-			return sellerRepo.save(obj);
+		sel.setEmail(obj.getEmail());
+		sel.setName(obj.getName());
+		sel.setCpf(obj.getCpf());
+		sel.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-		} catch (Exception e) {
-			throw new DuplicateEntryException();
+		if (clientRepo.findByEmail(sel.getEmail()) == null) {
+			try {
+				return sellerRepo.save(sel);
+			} catch (Exception e) {
+				throw new DuplicateEntryException();
+			}
 		}
 
+		throw new ClientOrSellerHasThisSameEntryException("client");
 	}
 
 	public void delete() {
 		SellerSS user = UserService.sellerAuthenticated();
 
-		try {
+		Seller sel = findById(user.getId());
+
+		if (sel.getNumberOfSells() == 0) {
 			sellerRepo.deleteById(user.getId());
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("You can't delete this object");
+
 		}
+
+		else {
+			throw new UserHasProductsRelationshipsException();
+
+		}
+
 	}
 }

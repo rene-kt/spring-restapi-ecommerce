@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] PUBLIC_MATCHER = {
 
-			"/swagger-ui.html","/create/**", "/ecommerce/forgot"
+			"/swagger-ui.html","/create/**", "/forgot",
 			
 	};
 

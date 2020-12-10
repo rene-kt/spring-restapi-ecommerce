@@ -20,7 +20,7 @@
 
 #### to both users: 
 - Sign up and Sign in
-- Update, Delete yourself
+- Update and Delete yourself
 
 #### only for clients
 - Add product in your wishlist
@@ -48,7 +48,7 @@ $ git clone https://github.com/reness0/spring-restapi-ecommerce
 - Run ```EcommerceApplication.java```
   > This is gonna be building the maven dependencies too
 
-- The endpoints are located in 'http://localhost:3000/ecommerce' and config its port on ```src/main/resources/application.properties```
+- The endpoints are located in 'http://localhost:3000/' and config its port on ```src/main/resources/application.properties```
   > Use a software like postman to do the resquests. 
   
 - Make sure to create a database called **ecommerce** 
@@ -62,7 +62,7 @@ $ git clone https://github.com/reness0/spring-restapi-ecommerce
 ## If you only want to use the API without cloning the project 
 
 - Open a software like postman to do the requests
-- Acess the endpoints through  https://renejr-ecommerce.herokuapp.com/ecommerce
+- Acess the endpoints through  https://renejr-ecommerce.herokuapp.com/
 
 ## Usage of the application 
 
@@ -74,7 +74,7 @@ start using it.
 Swagger is responsible to provide a documentation of the API, it break down the endpoints and the models of the application.
 Check it out:  https://renejr-ecommerce.herokuapp.com/swagger-ui.html 
 
-![swagger](https://user-images.githubusercontent.com/49681380/101045417-065f3480-355f-11eb-8899-c9fe12e174cc.png)
+![image](https://user-images.githubusercontent.com/49681380/101172029-5e5d7000-361f-11eb-8071-0a6a205a1713.png)
 
 
 ## How to contribute :question:
