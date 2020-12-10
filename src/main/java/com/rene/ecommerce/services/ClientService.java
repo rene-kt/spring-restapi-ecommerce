@@ -10,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rene.ecommerce.domain.dto.UpdatedClient;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.AuthorizationException;
-import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
+import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.ClientSS;
@@ -76,18 +77,25 @@ public class ClientService {
 	}
 
 	@Transactional
-	public Client update(Client obj) {
+	public Client update(UpdatedClient obj) {
 		ClientSS user = UserService.clientAuthenticated();
-		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
+		
+		Client cli = findById(user.getId());
 
-
-		if (user == null || !user.getId().equals(obj.getId())) {
+		if (user == null || !user.getId().equals(cli.getId())) {
 			throw new AuthorizationException();
 		}
 		
-		if (sellerRepo.findByEmail(obj.getEmail()) == null) {
+		cli.setCpf(obj.getCpf());
+		cli.setEmail(obj.getEmail());
+		cli.setName(obj.getName());
+		cli.setPassword(passwordEncoder.encode(obj.getPassword()));
+
+
+		
+		if (sellerRepo.findByEmail(cli.getEmail()) == null) {
 			try {
-				return clientRepo.save(obj);
+				return clientRepo.save(cli);
 			} catch (Exception e) {
 				throw new DuplicateEntryException();
 			}

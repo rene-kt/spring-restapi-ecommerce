@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rene.ecommerce.domain.dto.UpdatedClient;
 import com.rene.ecommerce.domain.dto.ranking.ClientRankingDTO;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.services.ClientService;
@@ -59,10 +60,10 @@ public class ClientResource {
 
 	@PutMapping("/update/client")
 	@ApiOperation(value = "Update a client ")
-	public ResponseEntity<Client> update(@RequestBody Client obj){
+	public ResponseEntity<Client> update(@RequestBody UpdatedClient obj){
 
-		service.update(obj);
-		return ResponseEntity.ok().body(obj);
+		Client cli = service.update(obj);
+		return ResponseEntity.ok().body(cli);
 	}
 
 	@DeleteMapping("/delete/client")
