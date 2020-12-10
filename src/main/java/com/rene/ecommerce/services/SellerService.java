@@ -7,7 +7,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
+import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.SellerSS;
@@ -93,10 +93,19 @@ public class SellerService {
 	public void delete() {
 		SellerSS user = UserService.sellerAuthenticated();
 
-		try {
+		Seller sel = findById(user.getId());
+		
+		if(sel.getNumberOfSells() == 0) {
 			sellerRepo.deleteById(user.getId());
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("You can't delete this object");
+
 		}
+		
+		else {
+			throw new UserHasProductsRelationshipsException();
+
+		}
+		
+		
+		
 	}
 }

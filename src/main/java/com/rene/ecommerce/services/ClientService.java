@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.AuthorizationException;
-import com.rene.ecommerce.exceptions.ClientHasBoughtProductsException;
+import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
@@ -102,11 +102,16 @@ public class ClientService {
 		
 		Client cli = findById(user.getId());
 		
-		if(cli.getBoughtProducts().isEmpty()) {
+		// verify if the client hasn't bought any products
+		// doing this by numberOfBuys because the performance
+		if(cli.getNumberOfBuys() == 0) {
 			clientRepo.deleteById(user.getId());
 		}
 		
-		throw new ClientHasBoughtProductsException();
+		else {
+			throw new UserHasProductsRelationshipsException();
+
+		}
 		
 	}
 	

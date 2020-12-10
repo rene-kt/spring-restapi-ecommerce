@@ -61,7 +61,7 @@ public class SellerResource {
 	}
 	
 	@ApiOperation(value = "Update a seller")
-	@PutMapping("/seller/update")
+	@PutMapping("/update/seller")
 	public ResponseEntity<Void> update(@RequestBody Seller obj){
 	
 	service.update(obj);
@@ -69,7 +69,7 @@ public class SellerResource {
 	}
 	
 	@ApiOperation(value = "Delete a seller")
-	@DeleteMapping("/seller/delete")
+	@DeleteMapping("/delete/seller")
 	public ResponseEntity<Void> delete(){
 		service.delete();
 		
