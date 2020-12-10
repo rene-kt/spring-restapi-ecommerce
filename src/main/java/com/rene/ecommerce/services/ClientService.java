@@ -7,20 +7,16 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.AuthorizationException;
+import com.rene.ecommerce.exceptions.ClientHasBoughtProductsException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
 import com.rene.ecommerce.exceptions.DuplicateEntryException;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
-import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
-import com.rene.ecommerce.exceptions.YouHaveAlreadyAddThisProductInYourWishlistException;
 import com.rene.ecommerce.repositories.ClientRepository;
-import com.rene.ecommerce.repositories.ProductRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
 import com.rene.ecommerce.security.ClientSS;
 
@@ -32,17 +28,12 @@ public class ClientService {
 
 	@Autowired
 	private SellerRepository sellerRepo;
-	
-	@Autowired
-	private ProductRepository productRepo;
+
 
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 	
-
-	@Autowired
-	private ProductService productService;
 
 
 	public Client findById(Integer id) {
@@ -108,35 +99,17 @@ public class ClientService {
 
 	public void delete() {
 		ClientSS user = UserService.clientAuthenticated();
-
-		try {
+		
+		Client cli = findById(user.getId());
+		
+		if(cli.getBoughtProducts().isEmpty()) {
 			clientRepo.deleteById(user.getId());
-		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityViolationException("You can't delete this object");
 		}
+		
+		throw new ClientHasBoughtProductsException();
+		
 	}
 	
-	public void setProductAsWished(Integer productId) {
-		
-		Product product = productService.findById(productId);
-		
-		if(Product.isSold(product)) {
-			throw new ProductHasAlreadyBeenSold();
-		}
-		
-		ClientSS user = UserService.clientAuthenticated();
-		Client client = findById(user.getId());
-		
-		if(client.getProductsWished().contains(product)) {
-			throw new YouHaveAlreadyAddThisProductInYourWishlistException();
-		}
-		
 
-		client.getProductsWished().add(product);
-		product.getWhoWhishesThisProduct().add(client);
-		
-		clientRepo.save(client);
-		productRepo.save(product);
-	}
 
 }

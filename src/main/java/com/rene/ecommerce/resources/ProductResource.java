@@ -36,8 +36,8 @@ public class ProductResource {
 	public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
 
 		Product obj = service.findById(id);
-		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(),
-				obj.getProductOwner(), obj.getBuyerOfTheProduct(), obj.getDescription());
+		ProductDTO dto = new ProductDTO(obj.getId(), obj.getName(), obj.getPrice(), obj.getProductOwner(),
+				obj.getBuyerOfTheProduct(), obj.getDescription());
 		return ResponseEntity.ok().body(dto);
 	}
 
@@ -54,7 +54,7 @@ public class ProductResource {
 	@PostMapping("/product")
 	public ResponseEntity<Product> insert(@RequestBody ProductDTO obj) {
 
-		Product product = new Product(null, obj.getName(), obj.getPrice(), null,obj.getDescription());
+		Product product = new Product(null, obj.getName(), obj.getPrice(), null, obj.getDescription());
 
 		service.insert(product);
 
@@ -75,15 +75,10 @@ public class ProductResource {
 
 	@ApiOperation(value = "Buy a product and send a confirmation email to client and to the seller")
 	@PutMapping("buy/{productId}")
-	public ResponseEntity<Object> buyProduct(@PathVariable Integer productId) {
+	public ResponseEntity<Void> buyProduct(@PathVariable Integer productId) {
 
-		try {
-			service.buyProduct(productId);
-			return ResponseEntity.ok().build();
-
-		} catch (ProductHasAlreadyBeenSold e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+		service.buyProduct(productId);
+		return ResponseEntity.ok().build();
 
 	}
 

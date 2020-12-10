@@ -73,13 +73,6 @@ public class ClientResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PutMapping("/wishlist/{productId}")
-	@ApiOperation(value = "Add a product in your wishlist")
-	public ResponseEntity<Void> setProductAsWished(@PathVariable Integer productId){
-		service.setProductAsWished(productId);
-		return ResponseEntity.noContent().build();
-
-	}
 
 	@ApiOperation(value = "Return a list of clients who buys the most")
 	@GetMapping("/clients/ranking")

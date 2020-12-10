@@ -135,7 +135,7 @@ public class ProductService {
 		threadSaveOrder(boughtProduct);
 
 		return productRepo.save(boughtProduct);
-		
+
 	}
 
 	private void threadSendEmail(Product boughtProduct) {
@@ -180,9 +180,6 @@ public class ProductService {
 
 				Order order = new Order(null, instant, product);
 
-				
-
-				order.toString();
 				orderRepo.save(order);
 			}
 		};
