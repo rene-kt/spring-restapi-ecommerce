@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rene.ecommerce.domain.dto.UpdatedSeller;
 import com.rene.ecommerce.domain.dto.ranking.SellerRankingDTO;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.services.RankingService;
@@ -62,10 +63,10 @@ public class SellerResource {
 	
 	@ApiOperation(value = "Update a seller")
 	@PutMapping("/update/seller")
-	public ResponseEntity<Void> update(@RequestBody Seller obj){
+	public ResponseEntity<Seller> update(@RequestBody UpdatedSeller obj){
 	
-	service.update(obj);
-	return ResponseEntity.noContent().build();
+	Seller sel = service.update(obj);
+	return ResponseEntity.ok().body(sel);
 	}
 	
 	@ApiOperation(value = "Delete a seller")

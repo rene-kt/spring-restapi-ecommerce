@@ -62,7 +62,7 @@ public class ClientResource {
 	@ApiOperation(value = "Update a client ")
 	public ResponseEntity<Client> update(@RequestBody UpdatedClient obj){
 
-		Client cli = service.update(obj);
+		Client cli =  service.update(obj);
 		return ResponseEntity.ok().body(cli);
 	}
 
