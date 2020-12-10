@@ -1,8 +1,8 @@
-package com.rene.ecommerce.domain.dto;
+package com.rene.ecommerce.domain.dto.updated;
 
 import java.io.Serializable;
 
-public class UpdatedSeller implements Serializable{
+public class UpdatedClient implements Serializable{
 	
 	
 	/**
@@ -14,11 +14,11 @@ public class UpdatedSeller implements Serializable{
 	private String cpf;
 	private String password;
 	
-	public UpdatedSeller() {
+	public UpdatedClient() {
 		
 	}
 
-	public UpdatedSeller(String name, String email, String cpf, String password) {
+	public UpdatedClient(String name, String email, String cpf, String password) {
 		super();
 		this.name = name;
 		this.email = email;

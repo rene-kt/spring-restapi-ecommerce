@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.rene.ecommerce.domain.Order;
 import com.rene.ecommerce.domain.Product;
+import com.rene.ecommerce.domain.dto.updated.UpdatedProduct;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.exceptions.AuthorizationException;
@@ -71,19 +72,23 @@ public class ProductService {
 
 	// verify if its product owner
 	@Transactional
-	public Product update(Product obj) {
+	public Product update(UpdatedProduct obj, Integer productId) {
 		SellerSS user = UserService.sellerAuthenticated();
 		Seller seller = sellerService.findById(user.getId());
+		Product product = findById(productId);
+		
 
-		if (!obj.getProductOwner().equals(seller)) {
+		if (!product.getProductOwner().equals(seller)) {
 			throw new AuthorizationException("You're not owner of this product");
 		}
-		if (Product.isSold(findById(obj.getId()))) {
+		if (Product.isSold(findById(product.getId()))) {
 			throw new ProductHasAlreadyBeenSold();
 		}
+		product.setName(obj.getName());
+		product.setDescription(obj.getDescription());
+		product.setPrice(obj.getPrice());
 
-		obj.setProductOwner(seller);
-		return productRepo.save(obj);
+		return productRepo.save(product);
 
 	}
 

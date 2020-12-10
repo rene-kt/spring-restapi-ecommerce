@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.rene.ecommerce.domain.dto.UpdatedClient;
+import com.rene.ecommerce.domain.dto.updated.UpdatedClient;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;

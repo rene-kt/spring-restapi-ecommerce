@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rene.ecommerce.domain.dto.UpdatedClient;
 import com.rene.ecommerce.domain.dto.ranking.ClientRankingDTO;
+import com.rene.ecommerce.domain.dto.updated.UpdatedClient;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.services.ClientService;
 import com.rene.ecommerce.services.RankingService;

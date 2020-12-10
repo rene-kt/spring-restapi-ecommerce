@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.Product;
 import com.rene.ecommerce.domain.dto.ProductDTO;
-import com.rene.ecommerce.exceptions.ProductHasAlreadyBeenSold;
+import com.rene.ecommerce.domain.dto.updated.UpdatedProduct;
 import com.rene.ecommerce.services.ProductService;
 
 import io.swagger.annotations.Api;
@@ -62,13 +62,11 @@ public class ProductResource {
 	}
 
 	@ApiOperation(value = "Update a product")
-	@PutMapping("/product/{categoryId}")
-	public ResponseEntity<Product> update(@RequestBody ProductDTO obj, @PathVariable Integer categoryId,
-			@PathVariable Integer sellerId) throws ProductHasAlreadyBeenSold {
+	@PutMapping("/product/{productId}")
+	public ResponseEntity<Product> update(@RequestBody UpdatedProduct obj,
+			@PathVariable Integer productId) {
 
-		Product product = new Product(obj.getId(), obj.getName(), obj.getPrice(), null, obj.getDescription());
-
-		service.update(product);
+		Product product = service.update(obj, productId);
 
 		return ResponseEntity.ok().body(product);
 	}

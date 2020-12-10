@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.rene.ecommerce.domain.dto.UpdatedSeller;
-import com.rene.ecommerce.domain.users.Client;
+import com.rene.ecommerce.domain.dto.updated.UpdatedSeller;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.exceptions.AuthorizationException;
 import com.rene.ecommerce.exceptions.ClientOrSellerHasThisSameEntryException;
@@ -20,7 +19,6 @@ import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.exceptions.UserHasProductsRelationshipsException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
-import com.rene.ecommerce.security.ClientSS;
 import com.rene.ecommerce.security.SellerSS;
 
 @Service
