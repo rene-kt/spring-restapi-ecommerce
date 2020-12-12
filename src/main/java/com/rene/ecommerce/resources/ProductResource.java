@@ -49,6 +49,17 @@ public class ProductResource {
 		List<Product> products = service.findAll();
 		return ResponseEntity.ok().body(products);
 	}
+	
+
+	@GetMapping("/ownproducts")
+	@ApiOperation(value = "Return own products")
+
+	public ResponseEntity<List<Product>> findOwnProducts() {
+
+		List<Product> products = service.findOwnProducts();
+		return ResponseEntity.ok().body(products);
+	}
+
 
 	@ApiOperation(value = "Create a product")
 	@PostMapping("/product")

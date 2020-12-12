@@ -111,6 +111,15 @@ public class ProductService {
 
 		return productRepo.findByHasBeenSold("Unsold");
 	}
+	
+	public List<Product> findOwnProducts() {
+		
+		SellerSS user = UserService.sellerAuthenticated();
+		Seller seller = sellerService.findById(user.getId());
+		
+
+		return seller.getOwnProducts();
+	}
 
 	@Transactional
 	public Product buyProduct(Integer productId) {
