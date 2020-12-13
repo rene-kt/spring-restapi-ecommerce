@@ -11,18 +11,16 @@ public class UpdatedClient implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private String email;
-	private String cpf;
 	private String password;
 	
 	public UpdatedClient() {
 		
 	}
 
-	public UpdatedClient(String name, String email, String cpf, String password) {
+	public UpdatedClient(String name, String email, String password) {
 		super();
 		this.name = name;
 		this.email = email;
-		this.cpf = cpf;
 		this.password = password;
 	}
 
@@ -40,14 +38,6 @@ public class UpdatedClient implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
 	}
 
 	public String getPassword() {
