@@ -85,7 +85,6 @@ public class SellerService {
 
 		sel.setEmail(obj.getEmail());
 		sel.setName(obj.getName());
-		sel.setCpf(obj.getCpf());
 		sel.setPassword(passwordEncoder.encode(obj.getPassword()));
 
 		if (clientRepo.findByEmail(sel.getEmail()) == null) {

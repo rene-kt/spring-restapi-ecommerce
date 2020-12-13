@@ -86,7 +86,6 @@ public class ClientService {
 			throw new AuthorizationException();
 		}
 		
-		cli.setCpf(obj.getCpf());
 		cli.setEmail(obj.getEmail());
 		cli.setName(obj.getName());
 		cli.setPassword(passwordEncoder.encode(obj.getPassword()));

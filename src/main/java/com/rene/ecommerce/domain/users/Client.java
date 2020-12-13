@@ -60,12 +60,6 @@ public class Client extends User {
 		return super.getName();
 	}
 
-	@Column(unique = true)
-	@Override
-	public String getCpf() {
-		// TODO Auto-generated method stub
-		return super.getCpf();
-	}
 
 	@Column(unique = true)
 	@Override

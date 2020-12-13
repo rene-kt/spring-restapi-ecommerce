@@ -12,7 +12,7 @@ public class ClientOrSellerHasThisSameEntryException extends RuntimeException {
 	 */
 
 	public ClientOrSellerHasThisSameEntryException(String profile) {
-		super("Seems like this email or cpf is being used by a: " + profile);
+		super("Seems like this email is being used by a: " + profile);
 	}
 
 	

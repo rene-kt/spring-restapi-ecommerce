@@ -12,7 +12,7 @@ public class DuplicateEntryException extends RuntimeException {
 	 */
 
 	public DuplicateEntryException() {
-		super("CPF and/or Email is already being used");
+		super("This email is already being used");
 	}
 
 	public DuplicateEntryException(String msg) {

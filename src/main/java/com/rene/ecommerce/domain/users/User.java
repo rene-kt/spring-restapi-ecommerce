@@ -4,7 +4,6 @@ public abstract class User {
 
 	private Integer id;
 	private String name;
-	private String cpf;
 	private String email;
 	private String password;
 	private String type; 
@@ -33,13 +32,6 @@ public abstract class User {
 		this.name = name;
 	}
 
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 
 	public String getEmail() {
 		return email;
