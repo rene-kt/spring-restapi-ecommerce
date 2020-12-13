@@ -1,5 +1,7 @@
 package com.rene.ecommerce.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.rene.ecommerce.security.JWTUtil;
 import com.rene.ecommerce.security.filters.JWTAuthenticationFilter;
@@ -57,7 +62,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                    "/webjars/**");
     }
 
-	
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        
+        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        
+        config.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "OPTIONS"));
+        
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
 
 	
 	 @Override
