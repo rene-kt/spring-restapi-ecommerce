@@ -11,10 +11,11 @@ import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
+import com.rene.ecommerce.security.UserSS;
 import com.rene.ecommerce.services.email.EmailService;
 
 @Service
-public class ForgotPasswordService {
+public class AuthService {
 
 	private Random rand = new Random();
 
@@ -26,7 +27,7 @@ public class ForgotPasswordService {
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
-	
+
 	@Autowired
 	private EmailService emailService;
 
@@ -41,22 +42,20 @@ public class ForgotPasswordService {
 
 		} catch (NullPointerException e) {
 			Seller sel = sellerRepository.findByEmail(email);
-			
+
 			if (sel == null) {
 				throw new ObjectNotFoundException();
 			}
-			
+
 			String newPassword = newPassword();
 			sel.setPassword(pe.encode(newPassword));
 			sellerRepository.save(sel);
 			threadSendEmail(sel.getEmail(), newPassword);
 
-
-			
 		}
 
 	}
-	
+
 	private void threadSendEmail(String email, String newPassword) {
 		Thread threadEmail = new Thread() {
 			public void run() {
@@ -66,7 +65,16 @@ public class ForgotPasswordService {
 		};
 		threadEmail.start();
 	}
-	
+
+	public String getTypeOfUser() {
+
+		if (UserService.clientAuthenticated() != null) {
+			return "Client";
+		} else {
+			return "Seller";
+		}
+
+	}
 
 	private String newPassword() {
 		char[] vet = new char[6];
@@ -91,4 +99,5 @@ public class ForgotPasswordService {
 			return (char) (rand.nextInt(26) + 97);
 		}
 	}
+
 }
