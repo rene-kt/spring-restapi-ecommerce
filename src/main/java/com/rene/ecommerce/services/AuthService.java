@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rene.ecommerce.domain.dto.TypeDTO;
 import com.rene.ecommerce.domain.users.Client;
 import com.rene.ecommerce.domain.users.Seller;
 import com.rene.ecommerce.exceptions.ObjectNotFoundException;
 import com.rene.ecommerce.repositories.ClientRepository;
 import com.rene.ecommerce.repositories.SellerRepository;
-import com.rene.ecommerce.security.UserSS;
 import com.rene.ecommerce.services.email.EmailService;
 
 @Service
@@ -66,12 +66,14 @@ public class AuthService {
 		threadEmail.start();
 	}
 
-	public String getTypeOfUser() {
+	public TypeDTO getTypeOfUser() {
 
 		if (UserService.clientAuthenticated() != null) {
-			return "Client";
-		} else {
-			return "Seller";
+			return new TypeDTO("Client");
+		} else if(UserService.sellerAuthenticated() != null) {
+			return new TypeDTO("Seller");
+		}else {
+			throw new ObjectNotFoundException();
 		}
 
 	}

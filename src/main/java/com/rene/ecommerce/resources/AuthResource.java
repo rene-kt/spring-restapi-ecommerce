@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rene.ecommerce.domain.dto.EmailDTO;
+import com.rene.ecommerce.domain.dto.TypeDTO;
 import com.rene.ecommerce.services.AuthService;
 
 import io.swagger.annotations.Api;
@@ -35,11 +36,10 @@ public class AuthResource {
 	
 	@GetMapping("/user")
 	@ApiOperation(value = "return if the user is a client or a seller")
-	public ResponseEntity<String> getTypeOfUser() {
+	public ResponseEntity<TypeDTO> getTypeOfUser() {
 
-		String type = service.getTypeOfUser();
 		
-		return ResponseEntity.ok().body(type);
+		return ResponseEntity.ok().body(service.getTypeOfUser());
 	}
 	
 
