@@ -20,15 +20,16 @@
 
 #### to both users: 
 - Sign up and Sign in
-- Update and Delete yourself
+- Update and Delete (if you haven't bought or sold any product) yourself
+- Get a seller and client ranking 
+
 
 #### only for clients
 - Add product in your wishlist
 - Buy product (when this happens, an email is sent to client and to the seller) 
 
 #### only for sellers
-- Create, update and delete products 
-- Create, update and delete categories
+- Create, update and delete products
 - Sell a product
 
 
