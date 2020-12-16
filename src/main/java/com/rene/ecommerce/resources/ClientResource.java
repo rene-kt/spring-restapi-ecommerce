@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,13 +41,14 @@ public class ClientResource {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
-	@ApiOperation(value = "Return a client by id")
-	@GetMapping("/client/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Integer id) {
+	@ApiOperation(value = "Return your own profile as Client")
+	@GetMapping("/client")
+	public ResponseEntity<Client> find() {
 
-		Client obj = service.findById(id);
+		Client obj = service.returnClientWithoutParsingTheId();
 		return ResponseEntity.ok().body(obj);
 	}
+	
 	@ApiOperation(value = "Create a client")
 	@PostMapping("/create/client")
 	public ResponseEntity<Client> insert(@RequestBody Client obj) {

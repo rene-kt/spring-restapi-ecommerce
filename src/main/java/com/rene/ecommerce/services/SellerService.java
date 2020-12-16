@@ -49,6 +49,21 @@ public class SellerService {
 		}
 
 	}
+	
+	public Seller returnClientWithoutParsingTheId() {
+		SellerSS user = UserService.sellerAuthenticated();
+
+		if (user == null) {
+			throw new AuthorizationException();
+		}
+
+		try {
+			return findById(user.getId());
+		} catch (NoSuchElementException e) {
+			throw new ObjectNotFoundException();
+		}
+
+	}
 
 	public List<Seller> findAll() {
 		return sellerRepo.findAll();

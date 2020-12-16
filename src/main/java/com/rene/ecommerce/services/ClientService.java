@@ -30,12 +30,8 @@ public class ClientService {
 	@Autowired
 	private SellerRepository sellerRepo;
 
-
-
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
-
 
 	public Client findById(Integer id) {
 
@@ -54,6 +50,21 @@ public class ClientService {
 
 	}
 
+	public Client returnClientWithoutParsingTheId() {
+		ClientSS user = UserService.clientAuthenticated();
+
+		if (user == null) {
+			throw new AuthorizationException();
+		}
+
+		try {
+			return findById(user.getId());
+		} catch (NoSuchElementException e) {
+			throw new ObjectNotFoundException();
+		}
+
+	}
+
 	public List<Client> findAll() {
 		return clientRepo.findAll();
 	}
@@ -62,7 +73,6 @@ public class ClientService {
 	public Client insert(Client obj) {
 		obj.setId(null);
 		obj.setPassword(passwordEncoder.encode(obj.getPassword()));
-		
 
 		if (sellerRepo.findByEmail(obj.getEmail()) == null) {
 			try {
@@ -79,19 +89,17 @@ public class ClientService {
 	@Transactional
 	public Client update(UpdatedClient obj) {
 		ClientSS user = UserService.clientAuthenticated();
-		
+
 		Client cli = findById(user.getId());
 
 		if (user == null || !user.getId().equals(cli.getId())) {
 			throw new AuthorizationException();
 		}
-		
+
 		cli.setEmail(obj.getEmail());
 		cli.setName(obj.getName());
 		cli.setPassword(passwordEncoder.encode(obj.getPassword()));
 
-
-		
 		if (sellerRepo.findByEmail(cli.getEmail()) == null) {
 			try {
 				return clientRepo.save(cli);
@@ -106,22 +114,20 @@ public class ClientService {
 
 	public void delete() {
 		ClientSS user = UserService.clientAuthenticated();
-		
+
 		Client cli = findById(user.getId());
-		
+
 		// verify if the client hasn't bought any products
 		// doing this by numberOfBuys because the performance
-		if(cli.getNumberOfBuys() == 0) {
+		if (cli.getNumberOfBuys() == 0) {
 			clientRepo.deleteById(user.getId());
 		}
-		
+
 		else {
 			throw new UserHasProductsRelationshipsException();
 
 		}
-		
-	}
-	
 
+	}
 
 }
