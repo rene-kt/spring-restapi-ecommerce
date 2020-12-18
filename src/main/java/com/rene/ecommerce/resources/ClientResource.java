@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping
 @Api(value = "Client resource")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class ClientResource {
 
 	@Autowired

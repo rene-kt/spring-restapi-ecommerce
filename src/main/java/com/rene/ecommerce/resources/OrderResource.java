@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(value = "Order resource")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping
 public class OrderResource {
 

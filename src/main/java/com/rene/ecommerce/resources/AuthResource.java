@@ -18,7 +18,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(value = "Auth service")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping
 public class AuthResource {
 

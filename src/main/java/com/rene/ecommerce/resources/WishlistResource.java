@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @Api(value = "Wishlist resource")
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RequestMapping
 public class WishlistResource {
 
