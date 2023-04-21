@@ -38,7 +38,7 @@ public class AuthResourceTest {
     @Test
     public void testForgot() {
         String url = baseUrl + "forgot";
-        String body = "{}";
+        String body = "{\"email\": \"" + clientEmail + "\"}";
 
     }
 
@@ -69,5 +69,17 @@ public class AuthResourceTest {
                 extract().response();
         String role = response.jsonPath().getString("type");
         assertEquals(role, "Seller");
+    }
+
+    // 1.2.1 GET /user : test when authorization header is not present
+    @Test
+    public void testUserWithoutToken() {
+        String url = baseUrl + "user";
+        given().
+                when().
+                get(url).
+                then().
+                statusCode(403).
+                extract().response();
     }
 }
